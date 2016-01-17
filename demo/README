@@ -1,0 +1,16 @@
+INSTALL DEMO
+------------
+
+cd demo
+composer update
+
+Composer BUG!!! : modify vendor/composer/autoload_psr4.php and change
+
+'Quazardous\\Silex\\' => array($vendorDir . '/quazardous/silex-pack/src'),
+
+to
+
+'Quazardous\\Silex\\' => array($vendorDir . '/quazardous/silex-pack/src/Silex'),
+
+- http://localhost/acme/demo/hello/david
+- http://localhost/acme/demo/foo : test template override

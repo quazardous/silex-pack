@@ -1,0 +1,19 @@
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": ".."
+        }
+    ],
+	"require" : {
+        "silex/silex": "^2.0@dev",
+        "quazardous/silex-pack": "*@dev",
+        "twig/twig" : "^1.8",
+        "symfony/twig-bridge": "^3.0"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"" : "src/"
+		}
+	}
+}

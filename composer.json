@@ -1,0 +1,28 @@
+{
+	"name" : "quazardous/silex-pack",
+	"keywords" : [
+        "bundle",
+        "silex"
+    ],
+	"type" : "library",
+	"description" : "Add bundle like system to Silex 2",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Quazardous",
+			"email" : "berliozdavid@gmail.com",
+			"role" : "Developer"
+		}
+	],
+	"require" : {
+		"silex/silex" : "^2.0@dev"
+	},
+	"autoload" : {
+        "psr-4" : {
+            "Quazardous\\Silex\\" : "src/Silex"
+        }
+    },
+    "suggest": {
+        "twig/twig": "Allows to use templates with packs",
+        "symfony/twig-bridge": "Allows to use the url() function within Twig template"
+    }
+}
