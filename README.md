@@ -1,5 +1,5 @@
 # silex-pack
-Add bundle like system to Silex
+Add bundle like system to Silex 2
 
 ## What ?
 
@@ -14,7 +14,7 @@ You can find the corresponding interfaces in src/Silex/Api.
 
 ## Usage
 
-Implements the interfaces you need and register your bundle as a classic service provider.
+Implements the interfaces you need and register your -pack as a classic service provider.
 
 ```php
 ...
