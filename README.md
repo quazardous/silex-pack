@@ -48,6 +48,24 @@ Silex Pack provides a basic dropin trait implementation for the trivial function
 
 -> Quazardous\Silex\Pack\JetPackTrait
 
+## Pack folders
+
+A pack has no strict structure but it should be very similar to bundle:
+
+```
++-- Acme/ :
+|   +-- AlphaPack/
+|   |   +-- AcmeAlphaPack.php
+|   |   +-- Command/
+|   |   +-- Controller/
+|   |   +-- Entity/
+|   |   +-- fixtures/
+|   |   +-- views/
+|   |
+|   +-- BetaPack/
+|
+```
+
 ## Demo
 
 See the demo for more details (read demo/README).
