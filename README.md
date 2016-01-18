@@ -5,18 +5,39 @@ Add bundle like system to Silex 2
 
 Silex Pack add some automation in the following stuff:
 
-- mountable pack : packs can provides controllers and prefix where to mount
-- twiggable pack : packs can define private Twig templates folder
-- entitable pack : packs can expose entites to Doctrine
-- consolable pack : packs can add commands to the console
+### mountable pack
 
-You can find the corresponding interfaces in src/Silex/Api.
+Packs can provides controllers and prefix where to mount.
+
+-> Quazardous\Silex\Api\MountablePackInterface
+
+### twiggable pack
+
+Packs can define private Twig templates folder with override capability from the application templates folder.
+
+-> Quazardous\Silex\Api\TwiggablePackInterface
+
+### entitable pack
+
+Packs can expose entites to Doctrine ORM.
+
+-> Quazardous\Silex\Api\EntitablePackInterface
+
+##consolable pack
+
+Packs can add commands to the console.
+
+-> Quazardous\Silex\Api\ConsolablePackInterface
 
 ## Usage
 
-Implements the interfaces you need and register your -pack as a classic service provider.
+Use Quazardous\Silex\PackableApplication instead of Silex\Application.
+
+Implements the interfaces you need and register your pack as a classic service provider.
 
 ```php
+...
+$app = new Quazardous\Silex\PackableApplication;
 ...
 use Acme\DemoPack\AcmeDemoPack;
 $app->register(new AcmeDemoPack());
