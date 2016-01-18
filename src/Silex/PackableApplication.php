@@ -4,6 +4,11 @@ namespace Quazardous\Silex;
 use Silex\Application;
 use Quazardous\Silex\Api\MountablePackInterface;
 use Quazardous\Silex\Api\TwiggablePackInterface;
+use Quazardous\Silex\Api\EntitablePackInterface;
+use Quazardous\Silex\Api\ConsolablePackInterface;
+use Pimple\ServiceProviderInterface;
+use Quazardous\Silex\Console\ConsoleEvents;
+use Quazardous\Silex\Console\ConsoleEvent;
 
 /**
  * Application which knows how to handle packs.
@@ -11,40 +16,98 @@ use Quazardous\Silex\Api\TwiggablePackInterface;
 class PackableApplication extends Application
 {
 
-    public function boot() {
+    public function boot()
+    {
         $booted = $this->booted;
+        
+        if (!$booted) {
+            foreach ($this->providers as $provider) {
+                // handle pack's entities
+                // must be done before the console boot()
+                $this->registerEntitablePack($provider);
+                // handle pack's commands
+                // must be done before the orm provider register()
+                $this->registerConsolablePack($provider);
+            }
+        }
         
         parent::boot();
         
-        if ($booted) return;
-        
-        foreach ($this->providers as $provider) {
-            // connect the controller provider
-            if ($provider instanceof MountablePackInterface) {
-                $this->mount($provider->getMountPrefix(), $provider);
+        if (!$booted) {
+            foreach ($this->providers as $provider) {
+                // connect pack
+                $this->registerMountablePack($provider);
+                // handle twig pack
+                $this->registerTwiggablePack($provider);
             }
-        
-            // handle twig
-            if ($provider instanceof TwiggablePackInterface) {
-                if (isset($this['twig.loader.filesystem'])) {
-                    $this['twig.loader.filesystem']->addPath($provider->getTwigTemplatePath(), $provider->getName());
-                }
-                if (isset($this['twig'])) {
-                    foreach ($provider->getTwigExtensions() as $extension) {
-                        if ($extension instanceof \Twig_SimpleFilter) {
-                            $this['twig']->addFilter($extension);
-                        } elseif ($extension instanceof \Twig_SimpleFunction) {
-                            $this['twig']->addFunction($extension);
-                        }
+            // handle twig template override
+            $this->addPackOverridingTemplatePathToTwig();
+        }
+
+    }
+
+    protected function registerMountablePack(ServiceProviderInterface $provider)
+    {
+        if ($provider instanceof MountablePackInterface) {
+            $this->mount($provider->getMountPrefix(), $provider);
+        }
+    }
+
+    protected function registerTwiggablePack(ServiceProviderInterface $provider)
+    {
+        if ($provider instanceof TwiggablePackInterface) {
+            if (isset($this['twig.loader.filesystem'])) {
+                $this['twig.loader.filesystem']->addPath($provider->getTwigTemplatePath(), $provider->getName());
+            }
+            if (isset($this['twig'])) {
+                foreach ($provider->getTwigExtensions() as $extension) {
+                    if ($extension instanceof \Twig_SimpleFilter) {
+                        $this['twig']->addFilter($extension);
+                    } elseif ($extension instanceof \Twig_SimpleFunction) {
+                        $this['twig']->addFunction($extension);
                     }
                 }
             }
         }
-        // handle twig template override
+    }
+    
+    protected function registerEntitablePack(ServiceProviderInterface $provider)
+    {
+        if ($provider instanceof EntitablePackInterface) {
+            if (empty($this['orm.em.options'])) {
+                $options = [];
+            } else {
+                $options = $this['orm.em.options'];
+            }
+            if (empty($options['mappings'])) {
+                $options['mappings'] = [];
+            }
+            $options['mappings'] += $provider->getEntityMappings();
+            $this['orm.em.options'] = $options;
+        }
+    }
+    
+    protected function registerConsolablePack(ServiceProviderInterface $provider)
+    {
+        if ($provider instanceof ConsolablePackInterface) {
+            $this['dispatcher']->addListener(ConsoleEvents::INIT, function (ConsoleEvent $event) use($provider) {
+                $console = $event->getConsole();
+                
+                foreach ($provider->getConsoleCommands() as $command) {
+                    $console->add($command);
+                }
+            });
+        }
+    }
+    
+    protected function addPackOverridingTemplatePathToTwig()
+    {
         if (isset($this['twig.loader.filesystem'])) {
             // for each path in the main Twig namespace we will search for sub folder with the name of the other namespaces
             // we will consider that as a possible folder of overriden templates...
-            $namespaces = array_diff($this['twig.loader.filesystem']->getNamespaces(), [\Twig_Loader_Filesystem::MAIN_NAMESPACE]);
+            $namespaces = array_diff($this['twig.loader.filesystem']->getNamespaces(), [
+                \Twig_Loader_Filesystem::MAIN_NAMESPACE
+            ]);
             foreach ($this['twig.loader.filesystem']->getPaths() as $path) {
                 foreach ($namespaces as $ns) {
                     $dir = $path . '/' . $ns;

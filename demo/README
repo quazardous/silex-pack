@@ -12,5 +12,12 @@ to
 
 'Quazardous\\Silex\\' => array($vendorDir . '/quazardous/silex-pack/src/Silex'),
 
+mkdir -p app/db/
+touch app/db/acme_demo.db
+vendor/bin/doctrine orm:schema-tool:create
+vendor/bin/doctrine orm:generate-proxies
+php ./app/console.php acme:demo:fixture
+
 - http://localhost/acme/demo/hello/david
 - http://localhost/acme/demo/foo : test template override
+- http://localhost/acme/demo/items : test with doctrine

@@ -22,5 +22,17 @@ class DefaultController
        return $app->renderView('@AcmeDemo/default/foo.html.twig');
     }
     
+    public function item(Application $app, $id)
+    {
+        $vars = [];
+        $vars['item'] = $app['orm.em']->getRepository('Acme\DemoPack\Entity\Item')->find($id);
+        return $app->renderView('@AcmeDemo/default/item.html.twig', $vars);
+    }
     
+    public function items(Application $app)
+    {
+        $vars = [];
+        $vars['items'] = $app['orm.em']->getRepository('Acme\DemoPack\Entity\Item')->findAll();
+        return $app->renderView('@AcmeDemo/default/items.html.twig', $vars);
+    }
 }

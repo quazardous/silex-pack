@@ -9,11 +9,16 @@
         "silex/silex": "^2.0@dev",
         "quazardous/silex-pack": "*@dev",
         "twig/twig" : "^1.8",
-        "symfony/twig-bridge": "^3.0"
+        "symfony/twig-bridge": "^3.0",
+        "dflydev/doctrine-orm-service-provider": "^2.0",
+        "doctrine/migrations" : "*@dev",
+        "doctrine/data-fixtures" : "^1.0@dev",
+        "quazardous/silex-console": "*@dev",
+        "quazardous/silex-migration": "*@dev"
 	},
 	"autoload" : {
-		"psr-0" : {
-			"" : "src/"
+		"psr-4" : {
+			"Acme\\" : "src/Acme/"
 		}
 	}
 }

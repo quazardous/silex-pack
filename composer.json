@@ -23,6 +23,8 @@
     },
     "suggest": {
         "twig/twig": "Allows to use templates with packs",
-        "symfony/twig-bridge": "Allows to use the url() function within Twig template"
+        "symfony/twig-bridge": "Allows to use the url() function within Twig template",
+        "dflydev/doctrine-orm-service-provider": "Allows pack to manage their own entities",
+        "quazardous/silex-console": "Allows pack to add their own commands"
     }
 }

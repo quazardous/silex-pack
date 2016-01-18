@@ -4,73 +4,54 @@ namespace Acme\DemoPack;
 use Pimple\Container;
 use Quazardous\Silex\Api\MountablePackInterface;
 use Silex\Application;
-use Acme\DemoPack\Controller\DefaultController;
 use Quazardous\Silex\Api\TwiggablePackInterface;
+use Quazardous\Silex\Pack\JetPackTrait;
+use Quazardous\Silex\Api\EntitablePackInterface;
+use Quazardous\Silex\Api\ConsolablePackInterface;
+use Acme\DemoPack\Controller\DefaultController;
+use Acme\DemoPack\Command\FixtureCommand;
 
-class AcmeDemoPack implements MountablePackInterface, TwiggablePackInterface
+class AcmeDemoPack implements MountablePackInterface, TwiggablePackInterface, EntitablePackInterface, ConsolablePackInterface
 {
+    // default implementations of some needed functions for the pack interfaces
+    use JetPackTrait;
 
-    /**
-     *
-     * This name will be used to register the Twig namespace.
-     *
-     */
-    public function getName()
-    {
-        return 'AcmeDemo';
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     *
-     */
+    // a pack is a Silex service provider
     public function register(Container $app)
     {
-        $app['AcmeDemo.controller.default'] = function ($app) {
+        // provide your controller as usual
+        // To prefix your ids you can use th _ns() function provided by JetPackTrait.
+        $app[$this->_ns('controller.default')] = function ($app) {
             return new DefaultController();
         };
     }
 
-    /**
-     *
-     * {@inheritDoc}
-     *
-     */
+    // mount base url
     public function getMountPrefix()
     {
         return '/acme/demo';
     }
 
+    // a pack is a Silex controller provider
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
         
-        $controllers->match('/hello/{you}/{useTemplate}', 'AcmeDemo.controller.default:hello')
+        $controllers->match('/hello/{you}/{useTemplate}', $this->_ns('controller.default:hello'))
             ->value('useTemplate', true)
-            ->bind('AcmeDemo.hello');
+            ->bind($this->_ns('hello'));
         
-        $controllers->match('/foo', 'AcmeDemo.controller.default:foo');
+        $controllers->match('/item/{id}', $this->_ns('controller.default:item'))
+            ->bind($this->_ns('item'));
+        
+        $controllers->match('/items', $this->_ns('controller.default:items'));
+            
+        $controllers->match('/foo', $this->_ns('controller.default:foo'));
         
         return $controllers;
     }
 
-    /**
-     *
-     * {@inheritDoc}
-     *
-     */
-    public function getTwigTemplatePath()
-    {
-        $reflector = new \ReflectionClass($this);
-        return dirname($reflector->getFileName()) . '/views';
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     *
-     */
+    // helper function to add Twig filters and functions
     public function getTwigExtensions()
     {
         return [
@@ -80,6 +61,15 @@ class AcmeDemoPack implements MountablePackInterface, TwiggablePackInterface
             new \Twig_SimpleFunction('barize', function ($string) {
                 return $string . "bar";
             }),
+        ];
+    }
+
+
+    // returns commands to add to the console
+    public function getConsoleCommands()
+    {
+        return [
+            new FixtureCommand()
         ];
     }
 
