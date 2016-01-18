@@ -12,6 +12,7 @@ class DefaultController
         if ($useTemplate) {
             $vars = [];
             $vars['you'] = $you;
+            $vars['name'] = $app['acme_demo.name'];
             return $app->renderView('@AcmeDemo/default/hello.html.twig', $vars);
         }
         return "hello $you";

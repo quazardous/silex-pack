@@ -9,6 +9,7 @@ use Quazardous\Silex\Api\ConsolablePackInterface;
 use Pimple\ServiceProviderInterface;
 use Quazardous\Silex\Console\ConsoleEvents;
 use Quazardous\Silex\Console\ConsoleEvent;
+use Quazardous\Silex\Api\ConfigurablePackInterface;
 
 /**
  * Application which knows how to handle packs.
@@ -44,6 +45,46 @@ class PackableApplication extends Application
             $this->addPackOverridingTemplatePathToTwig();
         }
 
+    }
+    
+    public function register(ServiceProviderInterface $provider, array $values = array())
+    {
+        if ($provider instanceof ConfigurablePackInterface) {
+            $values = \array_merge_recursive_distinct($this->mergeConfigs($provider->getConfigsPath()), $values);
+        }
+        parent::register($provider, $values);
+        
+        return $this;
+    }
+    
+    protected function mergeConfigs($path) {
+        $configs = [];
+        $ids = [];
+        $dependencies = [];
+        
+        // read the differents config files
+        foreach (glob($path . '/*.config.php') as $configFile) {
+            $id = basename($configFile, '.config.php');
+            $configs[$id] = include $configFile;
+            $ids[] = $id;
+            if (isset($configs[$id]['_import'])) {
+                $dependencies[] = [$configs[$id]['_import'], $id];
+                unset($configs[$id]['_import']);
+            }
+        }
+        
+        $ids = \topological_sort($ids, $dependencies);
+        if (empty($ids)) {
+            throw new \RuntimeException('Cannot sort configs');
+        }
+        
+        // merge them in a logical order
+        $config = [];
+        foreach ($ids as $id) {
+            $config = \array_merge_recursive_distinct($config, $configs[$id]);
+        }
+        
+        return $config;
     }
 
     protected function registerMountablePack(ServiceProviderInterface $provider)

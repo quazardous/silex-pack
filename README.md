@@ -29,6 +29,12 @@ Packs can add commands to the console.
 
 -> Quazardous\Silex\Api\ConsolablePackInterface
 
+### configurable pack
+
+Packs can have config files. All the config files will be injected into the application container.
+
+-> Quazardous\Silex\Api\ConfigurablePackInterface
+
 ## Usage
 
 Use Quazardous\Silex\PackableApplication instead of Silex\Application.
@@ -47,6 +53,10 @@ $app->register(new AcmeDemoPack());
 Silex Pack provides a basic dropin trait implementation for the trivial functions:
 
 -> Quazardous\Silex\Pack\JetPackTrait
+
+And a all in one interface:
+
+-> Quazardous\Silex\Pack\JetPackInterface
 
 ## Pack folders
 

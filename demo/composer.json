@@ -19,6 +19,10 @@
 	"autoload" : {
 		"psr-4" : {
 			"Acme\\" : "src/Acme/"
-		}
+		},
+        "files" : [
+            "../src/functions/array_merge_recursive_distinct.php",
+            "../src/functions/topological_sort.php"
+        ]
 	}
 }

@@ -34,6 +34,12 @@ trait JetPackTrait
     //const ENTITY_USE_SIMPLE_ANNOTATION = true;
     
     /**
+     * You can define the configs subpath. It's 'configs' by default.
+     * @const static::CONFIGS_SUBPATH
+     */
+    //const CONFIGS_SUBPATH = 'configs';
+    
+    /**
      * 
      * @return \ReflectionClass
      */
@@ -130,5 +136,19 @@ trait JetPackTrait
             ];
         }
         return [$mapping];
+    }
+    
+    /**
+     * The path of the configs.
+     * @return string
+     */
+    public function getConfigsPath()
+    {
+        static $path = null;
+        if (empty($path)) {
+            $subpath = defined('static::CONFIGS_SUBPATH') ? static::CONFIGS_SUBPATH : 'configs';
+            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+        }
+        return $path;
     }
 }

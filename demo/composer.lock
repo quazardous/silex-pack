@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ae7f8199d7401d93cea95414fa42fa54",
+    "hash": "4409936adace6b01d9e5260b73ba5205",
     "content-hash": "66da02db950ed519ac1714af722aaef6",
     "packages": [
         {
@@ -1029,7 +1029,7 @@
             "dist": {
                 "type": "path",
                 "url": "../",
-                "reference": "1879b4ee9406f88c1cd9d3e6440b6bb66e272dbe",
+                "reference": "2cb9599dee872d04c7afc5e415b1cfc9b8076862",
                 "shasum": null
             },
             "require": {
@@ -1037,6 +1037,7 @@
             },
             "suggest": {
                 "dflydev/doctrine-orm-service-provider": "Allows pack to manage their own entities",
+                "quazardous/silex-console": "Allows pack to add their own commands",
                 "symfony/twig-bridge": "Allows to use the url() function within Twig template",
                 "twig/twig": "Allows to use templates with packs"
             },

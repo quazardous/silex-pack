@@ -19,7 +19,11 @@
 	"autoload" : {
         "psr-4" : {
             "Quazardous\\Silex\\" : "src/Silex"
-        }
+        },
+        "files" : [
+            "src/functions/array_merge_recursive_distinct.php",
+            "src/functions/topological_sort.php"
+        ]
     },
     "suggest": {
         "twig/twig": "Allows to use templates with packs",

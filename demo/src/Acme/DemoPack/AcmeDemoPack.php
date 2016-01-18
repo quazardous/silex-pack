@@ -2,16 +2,13 @@
 namespace Acme\DemoPack;
 
 use Pimple\Container;
-use Quazardous\Silex\Api\MountablePackInterface;
 use Silex\Application;
-use Quazardous\Silex\Api\TwiggablePackInterface;
 use Quazardous\Silex\Pack\JetPackTrait;
-use Quazardous\Silex\Api\EntitablePackInterface;
-use Quazardous\Silex\Api\ConsolablePackInterface;
 use Acme\DemoPack\Controller\DefaultController;
 use Acme\DemoPack\Command\FixtureCommand;
+use Quazardous\Silex\Pack\JetPackInterface;
 
-class AcmeDemoPack implements MountablePackInterface, TwiggablePackInterface, EntitablePackInterface, ConsolablePackInterface
+class AcmeDemoPack implements JetPackInterface
 {
     // default implementations of some needed functions for the pack interfaces
     use JetPackTrait;
