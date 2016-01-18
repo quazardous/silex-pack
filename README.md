@@ -44,7 +44,9 @@ $app->register(new AcmeDemoPack());
 ...
 ```
 
-Silex Pack provides a basic dropin trait implementation for the trivial functions: src/Silex/Pack/JetPackTrait.php
+Silex Pack provides a basic dropin trait implementation for the trivial functions:
+
+-> Quazardous\Silex\Pack\JetPackTrait
 
 ## Demo
 
