@@ -23,7 +23,7 @@ Packs can expose entites to Doctrine ORM.
 
 -> Quazardous\Silex\Api\EntitablePackInterface
 
-##consolable pack
+### consolable pack
 
 Packs can add commands to the console.
 
