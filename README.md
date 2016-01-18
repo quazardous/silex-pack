@@ -69,6 +69,7 @@ A pack has no strict structure but it should be very similar to bundle:
 |   |   +-- Command/
 |   |   +-- Controller/
 |   |   +-- Entity/
+|   |   +-- configs/
 |   |   +-- fixtures/
 |   |   +-- views/
 |   |

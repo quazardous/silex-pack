@@ -50,14 +50,14 @@ class PackableApplication extends Application
     public function register(ServiceProviderInterface $provider, array $values = array())
     {
         if ($provider instanceof ConfigurablePackInterface) {
-            $values = \array_merge_recursive_distinct($this->mergeConfigs($provider->getConfigsPath()), $values);
+            $values = \array_merge_recursive_distinct($this->mergeConfigsFromPath($provider->getConfigsPath()), $values);
         }
         parent::register($provider, $values);
         
         return $this;
     }
     
-    protected function mergeConfigs($path) {
+    protected function mergeConfigsFromPath($path) {
         $configs = [];
         $ids = [];
         $dependencies = [];
@@ -73,9 +73,11 @@ class PackableApplication extends Application
             }
         }
         
-        $ids = \topological_sort($ids, $dependencies);
-        if (empty($ids)) {
-            throw new \RuntimeException('Cannot sort configs');
+        if (count($configs) > 1) {
+            $ids = \topological_sort($ids, $dependencies);
+            if (empty($ids)) {
+                throw new \RuntimeException('Cannot sort configs');
+            }
         }
         
         // merge them in a logical order
