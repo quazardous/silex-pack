@@ -6,10 +6,14 @@ use Quazardous\Silex\Api\MountablePackInterface;
 use Quazardous\Silex\Api\TwiggablePackInterface;
 use Quazardous\Silex\Api\EntitablePackInterface;
 use Quazardous\Silex\Api\ConsolablePackInterface;
+use Quazardous\Silex\Api\AssetablePackInterface;
 use Pimple\ServiceProviderInterface;
 use Quazardous\Silex\Console\ConsoleEvents;
 use Quazardous\Silex\Console\ConsoleEvent;
 use Quazardous\Silex\Api\ConfigurablePackInterface;
+use Silex\Api\ControllerProviderInterface;
+use Silex\ControllerCollection;
+use Quazardous\Assetic\Factory\NamespaceAwareAssetFactory;
 
 /**
  * Application which knows how to handle packs.
@@ -29,6 +33,8 @@ class PackableApplication extends Application
                 // handle pack's commands
                 // must be done before the orm provider register()
                 $this->registerConsolablePack($provider);
+                // handle pack's assets for assetic
+                $this->registerAssetablePack($provider);
             }
         }
         
@@ -40,9 +46,12 @@ class PackableApplication extends Application
                 $this->registerMountablePack($provider);
                 // handle twig pack
                 $this->registerTwiggablePack($provider);
+                // add namespace to assetic
+                $this->postBootRegisterAssetablePack($provider);
             }
             // handle twig template override
             $this->addPackOverridingTemplatePathToTwig();
+            
         }
 
     }
@@ -54,6 +63,31 @@ class PackableApplication extends Application
         }
         parent::register($provider, $values);
         
+        return $this;
+    }
+    
+    public function mount($prefix, $controllers)
+    {
+        if ($controllers instanceof ControllerProviderInterface) {
+            $connectedControllers = $controllers->connect($this);
+            if (!$connectedControllers instanceof ControllerCollection) {
+                throw new \LogicException(sprintf('The method "%s::connect" must return a "ControllerCollection" instance. Got: "%s"', get_class($controllers), is_object($connectedControllers) ? get_class($connectedControllers) : gettype($connectedControllers)));
+            }
+
+            if ($controllers instanceof MountablePackInterface) {
+                $host = $controllers->getMountHost();
+                if ($host !== null) {
+                    $connectedControllers->host($host);
+                }
+            }
+            
+            $controllers = $connectedControllers;
+        } elseif (!$controllers instanceof ControllerCollection) {
+            throw new \LogicException('The "mount" method takes either a "ControllerCollection" or a "ControllerProviderInterface" instance.');
+        }
+
+        $this['controllers']->mount($prefix, $controllers);
+
         return $this;
     }
     
@@ -100,7 +134,7 @@ class PackableApplication extends Application
     {
         if ($provider instanceof TwiggablePackInterface) {
             if (isset($this['twig.loader.filesystem'])) {
-                $this['twig.loader.filesystem']->addPath($provider->getTwigTemplatePath(), $provider->getName());
+                $this['twig.loader.filesystem']->addPath($provider->getTwigTemplatesPath(), $provider->getName());
             }
             if (isset($this['twig'])) {
                 foreach ($provider->getTwigExtensions() as $extension) {
@@ -140,6 +174,37 @@ class PackableApplication extends Application
                     $console->add($command);
                 }
             });
+        }
+    }
+    
+    protected function registerAssetablePack(ServiceProviderInterface $provider)
+    {
+        if ($provider instanceof AssetablePackInterface) {
+            $formulae = $provider->getAsseticFormulae();
+            foreach($formulae as &$formula) {
+                foreach($formula[0] as &$input) {
+                    if ($input[0] != '/') {
+                        //relative path
+                        $input = $provider->getAssetsPath() . '/' . $input;
+                    }
+                }
+            }
+            if (empty($this['assetic.formulae'])) {
+                $this['assetic.formulae'] = [];
+            }
+            $this['assetic.formulae'] = array_merge($this['assetic.formulae'], $formulae);
+        }
+    }
+    
+    protected function postBootRegisterAssetablePack(ServiceProviderInterface $provider)
+    {
+        if ($provider instanceof AssetablePackInterface) {
+            if (isset($this['assetic.factory'])) {
+                $factory = $this['assetic.factory'];
+                if ($factory instanceof NamespaceAwareAssetFactory) {
+                    $factory->addNamespace($provider->getName(), $provider->getAssetsPath());
+                }
+            }
         }
     }
     

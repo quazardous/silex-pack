@@ -35,6 +35,29 @@ Packs can have config files. All the config files will be injected into the appl
 
 -> Quazardous\Silex\Api\ConfigurablePackInterface
 
+### assetable pack
+
+Packs can have assets.
+
+-> Quazardous\Silex\Api\AssetablePackInterface
+
+```twig
+...
+{% stylesheets '@AcmeDemo/css/*.css' output="css/acme_demo.css" %} // NB: output="css/acme_demo.css" is mandatory for now...
+    <link href="{{ asset(asset_url) }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+...
+
+```
+
+You have to register the provided Assetic service provider because we have to inject a "namespace aware" asset factory.
+
+-> Quazardous\Silex\Provider\AsseticServiceProvider
+
+The dump is done in the standard $app['assetic.path_to_web'].
+
+See https://github.com/mheap/Silex-Assetic.
+
 ## Usage
 
 Use Quazardous\Silex\PackableApplication instead of Silex\Application.
@@ -69,6 +92,7 @@ A pack has no strict structure but it should be very similar to bundle:
 |   |   +-- Command/
 |   |   +-- Controller/
 |   |   +-- Entity/
+|   |   +-- assets/
 |   |   +-- configs/
 |   |   +-- fixtures/
 |   |   +-- views/

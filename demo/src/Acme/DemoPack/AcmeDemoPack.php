@@ -69,5 +69,18 @@ class AcmeDemoPack implements JetPackInterface
             new FixtureCommand()
         ];
     }
+    
+    
+    // return some assetic formulae
+    public function getAsseticFormulae()
+    {
+        return [
+            $this->_ns('css', true, '_') => [
+                ['css/*.css'],
+                ['yui_css'],
+                ['output' => 'css/' . $this->_ns()]
+            ],
+        ];
+    }
 
 }

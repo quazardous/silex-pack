@@ -1,10 +1,9 @@
-<html>
-<body>
-<h1>Hello {{ you|e }}</h1>
+{% extends '@AcmeDemo/default/layout.html.twig' %}
+
+{% block content %}
 <p>{{ "I'm so proud"|fooize }} !</p>
 <p>{{ barize("And so happy") }} !</p>
 <p>
 <a href="{{ url('acme_demo.hello', {'you': app['acme_demo.name']}) }}">{{ app['acme_demo.name']|e }}</a>
 </p>
-</body>
-</html>
+{% endblock content %}

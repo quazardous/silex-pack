@@ -1,0 +1,11 @@
+{% extends '@AcmeDemo/base.html.twig' %}
+
+{% block head_title %}
+Acme Demo :: {{ title|e }}
+{% endblock head_title %}
+
+{% block body %}
+    <h1>Acme Demo :: {{ title|e }}</h1>
+
+    {% block content %}{% endblock %}
+{% endblock %}

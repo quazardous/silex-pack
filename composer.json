@@ -14,11 +14,14 @@
 		}
 	],
 	"require" : {
-		"silex/silex" : "^2.0@dev"
+		"silex/silex" : "^2.0@dev",
+		"kriswallsmith/assetic": "^1.0",
+		"mheap/Silex-Assetic": "*@dev"
 	},
 	"autoload" : {
         "psr-4" : {
-            "Quazardous\\Silex\\" : "src/Silex"
+            "Quazardous\\Silex\\" : "src/Silex",
+            "Quazardous\\Assetic\\" : "src/Assetic"
         },
         "files" : [
             "src/functions/array_merge_recursive_distinct.php",

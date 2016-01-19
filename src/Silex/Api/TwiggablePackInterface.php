@@ -2,7 +2,6 @@
 namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\PackInterface;
-use Silex\Api\ControllerProviderInterface;
 
 /**
  * 
@@ -11,12 +10,12 @@ use Silex\Api\ControllerProviderInterface;
  * @link http://twig.sensiolabs.org/doc/api.html
  *
  */
-interface TwiggablePackInterface extends PackInterface, ControllerProviderInterface
+interface TwiggablePackInterface extends PackInterface
 {
     /**
      * The path of the templates.
      */
-    public function getTwigTemplatePath();
+    public function getTwigTemplatesPath();
     
     /**
      * Return an array of Twig_SimpleFilter or Twig_SimpleFunction to register with Twig.

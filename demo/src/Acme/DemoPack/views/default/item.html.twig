@@ -1,10 +1,9 @@
-<html>
-<body>
-<h1>Item</h1>
+{% extends '@AcmeDemo/default/layout.html.twig' %}
+
+{% block content %}
 <p>
 {% if item %}
 {{ item.id }}: {{ item.value }}
 {% endif %}
 </p>
-</body>
-</html>
+{% endblock content %}

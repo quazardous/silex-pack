@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4409936adace6b01d9e5260b73ba5205",
-    "content-hash": "66da02db950ed519ac1714af722aaef6",
+    "hash": "6564a077d051f5c65b5cac43afe6e0fd",
+    "content-hash": "6de9722b0542be9554c5a81990e43b8e",
     "packages": [
         {
             "name": "dflydev/doctrine-orm-service-provider",
@@ -650,12 +650,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "a729863bb82c8555e0301d6bbec1ea98bc67b2c3"
+                "reference": "b23bf53537c0e9d3f3cc11184f21720bac78234a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/a729863bb82c8555e0301d6bbec1ea98bc67b2c3",
-                "reference": "a729863bb82c8555e0301d6bbec1ea98bc67b2c3",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/b23bf53537c0e9d3f3cc11184f21720bac78234a",
+                "reference": "b23bf53537c0e9d3f3cc11184f21720bac78234a",
                 "shasum": ""
             },
             "require": {
@@ -711,7 +711,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2016-01-17 20:08:04"
+            "time": "2016-01-18 21:28:51"
         },
         {
             "name": "doctrine/orm",
@@ -790,6 +790,140 @@
             "time": "2016-01-05 21:34:58"
         },
         {
+            "name": "kriswallsmith/assetic",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kriswallsmith/assetic.git",
+                "reference": "9928f7c4ad98b234e3559d1049abd13387f86db5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/9928f7c4ad98b234e3559d1049abd13387f86db5",
+                "reference": "9928f7c4ad98b234e3559d1049abd13387f86db5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1",
+                "symfony/process": "~2.1|~3.0"
+            },
+            "conflict": {
+                "twig/twig": "<1.23"
+            },
+            "require-dev": {
+                "cssmin/cssmin": "3.0.1",
+                "joliclic/javascript-packer": "1.1",
+                "kamicane/packager": "1.0",
+                "leafo/lessphp": "^0.3.7",
+                "leafo/scssphp": "~0.1",
+                "mrclay/minify": "~2.2",
+                "patchwork/jsqueeze": "~1.0|~2.0",
+                "phpunit/phpunit": "~4.8",
+                "psr/log": "~1.0",
+                "ptachoire/cssembed": "~1.0",
+                "symfony/phpunit-bridge": "~2.7|~3.0",
+                "twig/twig": "~1.8|~2.0"
+            },
+            "suggest": {
+                "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
+                "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
+                "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
+                "patchwork/jsqueeze": "Assetic provides the integration with the JSqueeze JavaScript compressor",
+                "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
+                "twig/twig": "Assetic provides the integration with the Twig templating engine"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Assetic": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Asset Management for PHP",
+            "homepage": "https://github.com/kriswallsmith/assetic",
+            "keywords": [
+                "assets",
+                "compression",
+                "minification"
+            ],
+            "time": "2015-11-12 13:51:40"
+        },
+        {
+            "name": "mheap/silex-assetic",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mheap/Silex-Assetic.git",
+                "reference": "6487fbfe98a62320809eba866dbed01d94851764"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mheap/Silex-Assetic/zipball/6487fbfe98a62320809eba866dbed01d94851764",
+                "reference": "6487fbfe98a62320809eba866dbed01d94851764",
+                "shasum": ""
+            },
+            "require": {
+                "kriswallsmith/assetic": "~1.0",
+                "php": ">=5.3.0",
+                "symfony/finder": "~2.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7.10",
+                "silex/silex": "~2.0@dev",
+                "twig/twig": "~1.2"
+            },
+            "suggest": {
+                "twig/twig": "~1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SilexAssetic": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sven Eisenschmidt",
+                    "email": "sven.eisenschmidt@gmail.com",
+                    "homepage": "http://unsicherheitsagent.de/"
+                },
+                {
+                    "name": "Michael Heap",
+                    "email": "m@michaelheap.com",
+                    "homepage": "http://michaelheap.com/"
+                }
+            ],
+            "description": "Assetic extension for Silex",
+            "homepage": "https://github.com/mheap/Silex-Assetic",
+            "keywords": [
+                "assetic",
+                "silex"
+            ],
+            "time": "2015-03-06 11:21:02"
+        },
+        {
             "name": "ocramius/proxy-manager",
             "version": "1.0.2",
             "source": {
@@ -851,6 +985,50 @@
                 "service proxies"
             ],
             "time": "2015-08-09 04:28:19"
+        },
+        {
+            "name": "packagist/yuicompressor-bin",
+            "version": "v2.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/packagist/yuicompressor-bin.git",
+                "reference": "dc40696043218e3344279029308267b3ea48e03c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/packagist/yuicompressor-bin/zipball/dc40696043218e3344279029308267b3ea48e03c",
+                "reference": "dc40696043218e3344279029308267b3ea48e03c",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/yuicompressor.jar"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Yahoo! Inc.",
+                    "homepage": "http://yuilibrary.com"
+                },
+                {
+                    "name": "Krusty Kode",
+                    "email": "kaiwa@20minutemail.com",
+                    "role": "maintainer"
+                }
+            ],
+            "description": "YUI Compressor packaged for composer. JavaScript and CSS minification.",
+            "homepage": "http://yui.github.io/yuicompressor",
+            "keywords": [
+                "compressor",
+                "css",
+                "javascript",
+                "minification",
+                "yui"
+            ],
+            "time": "2013-07-15 18:05:47"
         },
         {
             "name": "pimple/pimple",
@@ -1029,10 +1207,12 @@
             "dist": {
                 "type": "path",
                 "url": "../",
-                "reference": "2cb9599dee872d04c7afc5e415b1cfc9b8076862",
+                "reference": "b782bc931c8204375ed6aef2db34e215aaeb6a1d",
                 "shasum": null
             },
             "require": {
+                "kriswallsmith/assetic": "^1.0",
+                "mheap/silex-assetic": "*@dev",
                 "silex/silex": "^2.0@dev"
             },
             "suggest": {
@@ -1044,8 +1224,13 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Quazardous\\Silex\\": "src/Silex"
-                }
+                    "Quazardous\\Silex\\": "src/Silex",
+                    "Quazardous\\Assetic\\": "src/Assetic"
+                },
+                "files": [
+                    "src/functions/array_merge_recursive_distinct.php",
+                    "src/functions/topological_sort.php"
+                ]
             },
             "license": [
                 "MIT"
@@ -1324,6 +1509,55 @@
             "time": "2015-10-30 23:35:59"
         },
         {
+            "name": "symfony/finder",
+            "version": "v2.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/finder.git",
+                "reference": "c90fabdd97e431ee19b6383999cf35334dff27da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/c90fabdd97e431ee19b6383999cf35334dff27da",
+                "reference": "c90fabdd97e431ee19b6383999cf35334dff27da",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Finder\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Finder Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-01-14 08:26:52"
+        },
+        {
             "name": "symfony/http-foundation",
             "version": "v3.0.1",
             "source": {
@@ -1515,6 +1749,55 @@
                 "shim"
             ],
             "time": "2015-11-20 09:19:13"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "f4794f1d00f0746621be3020ffbd8c5e0b217ee3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/f4794f1d00f0746621be3020ffbd8c5e0b217ee3",
+                "reference": "f4794f1d00f0746621be3020ffbd8c5e0b217ee3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-12-23 11:04:02"
         },
         {
             "name": "symfony/routing",
@@ -1897,7 +2180,8 @@
         "doctrine/migrations": 20,
         "doctrine/data-fixtures": 20,
         "quazardous/silex-console": 20,
-        "quazardous/silex-migration": 20
+        "quazardous/silex-migration": 20,
+        "mheap/silex-assetic": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

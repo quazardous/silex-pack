@@ -1,0 +1,14 @@
+<html>
+    <head>
+        {% block stylesheets %}
+            {% stylesheets '@AcmeDemo/css/*.css' output="css/acme_demo.css" %}
+                <link href="{{ asset(asset_url) }}" type="text/css" rel="stylesheet" />
+            {% endstylesheets %}
+        {% endblock stylesheets %}
+        
+       <title>{% block head_title %}{{ title|e }}{% endblock head_title %}</title>
+    </head>
+    <body>
+        {% block body %} {% endblock body %}
+    </body>
+</html>

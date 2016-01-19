@@ -6,10 +6,12 @@ use Silex\Api\ControllerProviderInterface;
 
 /**
  * 
- * Will mount the ControllerProvider on the given prefix.
+ * Will mount the ControllerProvider on the given prefix and the given host (optional).
  *
  */
 interface MountablePackInterface extends PackInterface, ControllerProviderInterface
 {
     public function getMountPrefix();
+    
+    public function getMountHost();
 }

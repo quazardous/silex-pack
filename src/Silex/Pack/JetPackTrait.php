@@ -40,6 +40,12 @@ trait JetPackTrait
     //const CONFIGS_SUBPATH = 'configs';
     
     /**
+     * You can define the assets subpath. It's 'assets' by default.
+     * @const static::ASSETS_SUBPATH
+     */
+    //const ASSETS_SUBPATH = 'assets';
+    
+    /**
      * 
      * @return \ReflectionClass
      */
@@ -72,7 +78,7 @@ trait JetPackTrait
      * Return the path for the Twig templates. By default, it's a 'views' folder in the pack class namespace path.
      * @return string
      */
-    public function getTwigTemplatePath()
+    public function getTwigTemplatesPath()
     {
         static $path = null;
         if (empty($path)) {
@@ -91,13 +97,13 @@ trait JetPackTrait
      * @param string $separator
      * @return string the pack namespaced id
      */
-    public function _ns($id, $decamelize = true, $separator = '.') {
+    protected function _ns($id = null, $decamelize = true, $separator = '.') {
         static $decamelized = null;
         if ($decamelize && empty($decamelized)) {
             $decamelized = static::decamelize($this->getName());
         }
         $ns = $decamelize ? $decamelized : $this->getName();
-        return $ns . $separator . $id;
+        return $ns . ($id ? $separator . $id : '');
     }
     
     /**
@@ -150,5 +156,33 @@ trait JetPackTrait
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
         return $path;
+    }
+    
+    /**
+     * The path of the assets.
+     * @return string
+     */
+    public function getAssetsPath()
+    {
+        static $path = null;
+        if (empty($path)) {
+            $subpath = defined('static::ASSETS_SUBPATH') ? static::ASSETS_SUBPATH : 'assets';
+            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+        }
+        return $path;
+    }
+    
+    /**
+     * By default mount the pack on '/'.
+     */
+    public function getMountPrefix() {
+        return '/';
+    }
+    
+    /**
+     * No specific host by default.
+     */
+    public function getMountHost() {
+        return null;
     }
 }

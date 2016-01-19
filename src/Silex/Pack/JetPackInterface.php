@@ -6,6 +6,7 @@ use Quazardous\Silex\Api\EntitablePackInterface;
 use Quazardous\Silex\Api\MountablePackInterface;
 use Quazardous\Silex\Api\TwiggablePackInterface;
 use Quazardous\Silex\Api\ConfigurablePackInterface;
+use Quazardous\Silex\Api\AssetablePackInterface;
 
 /**
  * 
@@ -17,6 +18,7 @@ interface JetPackInterface extends
     EntitablePackInterface,
     MountablePackInterface,
     TwiggablePackInterface,
-    ConfigurablePackInterface
+    ConfigurablePackInterface,
+    AssetablePackInterface
 {
 }
