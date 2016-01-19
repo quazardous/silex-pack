@@ -17,6 +17,7 @@ touch app/db/acme_demo.db
 vendor/bin/doctrine orm:schema-tool:create
 vendor/bin/doctrine orm:generate-proxies
 php ./app/console.php acme:demo:fixture
+php app/console.php assetic:dump
 
 - http://localhost/acme/demo/hello/david
 - http://localhost/acme/demo/foo : test template override
