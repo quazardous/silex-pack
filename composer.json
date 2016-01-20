@@ -22,7 +22,8 @@
 	},
 	"require-dev" : {
 		"kriswallsmith/assetic" : "^1.0",
-		"mheap/Silex-Assetic" : "*@dev"
+		"mheap/Silex-Assetic" : "*@dev",
+		"quazardous/silex-console" : "*@dev"
 	},
 	"autoload" : {
         "psr-4" : {

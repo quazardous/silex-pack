@@ -8,14 +8,8 @@ use Acme\DemoPack\AcmeDemoPack;
 use Silex\Provider\TwigServiceProvider;
 use Quazardous\Silex\Provider\AsseticServiceProvider;
 use Assetic\Filter\Yui\CssCompressorFilter;
-use Acme\Command\AsseticCommand;
-use Quazardous\Silex\Console\ConsoleEvent;
-use Quazardous\Silex\Console\ConsoleEvents;
 use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
-// use Assetic\Asset\AssetCollection;
-// use Assetic\Asset\AssetReference;
-// use Assetic\Asset\FileAsset;
 use Assetic\Filter\Yui\JsCompressorFilter;
 
 $app = new Application();
@@ -82,11 +76,6 @@ $app->register(new TranslationServiceProvider(), [
     'locale' => 'fr',
     'locale_fallbacks' => ['en'],
 ]);
-
-$app['dispatcher']->addListener(ConsoleEvents::INIT, function (ConsoleEvent $event) use ($app) {
-    $console = $event->getConsole();
-    $console->add(new AsseticCommand());
-});
 
 // we register our demo pack:
 // - this will mount all the controllers on the given prefix

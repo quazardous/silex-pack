@@ -1,11 +1,11 @@
 <?php
-namespace Acme\Command;
+namespace Quazardous\Assetic\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AsseticCommand extends Command
+class DumpCommand extends Command
 {
 
     protected function configure()
@@ -23,7 +23,7 @@ class AsseticCommand extends Command
         }
         
         // Boot assetic
-        $assetic = $app['assetic'];
+        $app['assetic'];
         
         /**
          * 

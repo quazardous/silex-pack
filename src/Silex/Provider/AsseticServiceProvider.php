@@ -7,6 +7,8 @@ use SilexAssetic\AsseticServiceProvider as BaseAsseticServiceProvider;
 use Pimple\Container;
 
 use Quazardous\Assetic\Factory\NamespaceAwareAssetFactory;
+use Quazardous\Assetic\WatchingDumper;
+use Assetic\Extension\Twig\AsseticExtension;
 
 class AsseticServiceProvider extends BaseAsseticServiceProvider
 {
@@ -22,6 +24,20 @@ class AsseticServiceProvider extends BaseAsseticServiceProvider
             $factory->setFilterManager($app['assetic.filter_manager']);
 
             return $factory;
+        };
+        
+        // we need a dumper which can decide not to dump
+        $app['assetic.dumper'] = function () use ($app) {
+            $dumper = new WatchingDumper(
+                $app['assetic.asset_manager'],
+                $app['assetic.lazy_asset_manager'],
+                $app['assetic.asset_writer'],
+                $app['assetic.path_to_web']
+                );
+            if (isset($app['twig'])) {
+                $dumper->setTwig($app['twig'], $app['twig.loader.filesystem']);
+            }
+            return $dumper;
         };
     }
 }

@@ -76,6 +76,8 @@ see Usage bellow.
 
 ## Usage
 
+### Register
+
 Use Quazardous\Silex\PackableApplication instead of Silex\Application.
 
 Implements the interfaces you need and register your pack as a classic service provider.
@@ -89,7 +91,7 @@ $app->register(new AcmeDemoPack());
 ...
 ```
 
-
+### Jet pack
 
 Silex Pack provides a basic dropin trait implementation for the trivial functions:
 
@@ -111,6 +113,16 @@ $app->register(new AcmeDemoPack(), [
 ```
 
 See JetPackTrait::$packOptions.
+
+
+### Assetic commands
+
+Silex pack provides assetic commands.
+
+- assetic:dump : dumps the assets
+- assetic:watch : watches the assets ans dumps if modifications
+
+-> Quazardous\Silex\Provider\AsseticCommandsProvider
 
 
 ## Pack folders
