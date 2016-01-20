@@ -6,4 +6,9 @@
 <p>
 <a href="{{ url('acme_demo.hello', {'you': app['acme_demo.name']}) }}">{{ app['acme_demo.name']|e }}</a>
 </p>
+{% for locale in locales %}
+<p>
+<a href="{{ url('acme_demo.hello_locale', {'you': app['acme_demo.name'], '_locale': locale}) }}">{{ app['acme_demo.name']|e }} {{ locale|e }}</a>
+</p>
+{% endfor %}
 {% endblock content %}

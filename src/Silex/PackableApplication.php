@@ -7,6 +7,7 @@ use Quazardous\Silex\Api\TwiggablePackInterface;
 use Quazardous\Silex\Api\EntitablePackInterface;
 use Quazardous\Silex\Api\ConsolablePackInterface;
 use Quazardous\Silex\Api\AssetablePackInterface;
+use Quazardous\Silex\Api\TranslatablePackInterface;
 use Pimple\ServiceProviderInterface;
 use Quazardous\Silex\Console\ConsoleEvents;
 use Quazardous\Silex\Console\ConsoleEvent;
@@ -48,6 +49,8 @@ class PackableApplication extends Application
                 $this->registerTwiggablePack($provider);
                 // add namespace to assetic
                 $this->postBootRegisterAssetablePack($provider);
+                // find pack's translations
+                $this->postBootRegisterTranslatablePack($provider);
             }
             // handle twig template override
             $this->addPackOverridingTemplatePathToTwig();
@@ -174,6 +177,34 @@ class PackableApplication extends Application
                     $console->add($command);
                 }
             });
+        }
+    }
+    
+    protected function postBootRegisterTranslatablePack(ServiceProviderInterface $provider)
+    {
+        
+        if ($provider instanceof TranslatablePackInterface) {
+            if (isset($this['translator'])) {
+                $path = $provider->getTranslationsPath();
+                foreach (glob("$path/*.{php,xlf,yml}", GLOB_BRACE) as $filepath) {
+                    $parts = pathinfo($filepath);
+                    $tokens = explode('.', $parts['filename']);
+                    if (count($tokens) >= 2) {
+                        $locale = array_pop($tokens);
+                        $domain = implode('.', $tokens);
+                    } else {
+                        $locale = $tokens[0];
+                        $domain = null;
+                    }
+                    $formats = ['php' => 'array', 'xlf' => 'xliff', 'yml' => 'yaml'];
+                    $format = $formats[$parts['extension']];
+                    $resource = $filepath;
+                    if ($format == 'array') {
+                        $resource = include $filepath;
+                    }
+                    $this['translator']->addResource($format, $resource, $locale, $domain);
+                }
+            }
         }
     }
     

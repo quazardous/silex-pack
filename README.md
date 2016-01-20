@@ -58,6 +58,15 @@ The dump is done in the standard $app['assetic.path_to_web'].
 
 See https://github.com/mheap/Silex-Assetic.
 
+### translatable pack
+
+Packs can have translations.
+
+-> Quazardous\Silex\Api\TranslatablePackInterface
+
+You can provide yaml files, xliff files or php files (returning a key => translation array).
+
+
 ## Usage
 
 Use Quazardous\Silex\PackableApplication instead of Silex\Application.
@@ -95,6 +104,7 @@ A pack has no strict structure but it should be very similar to bundle:
 |   |   +-- assets/
 |   |   +-- configs/
 |   |   +-- fixtures/
+|   |   +-- locales/
 |   |   +-- views/
 |   |
 |   +-- BetaPack/

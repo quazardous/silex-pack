@@ -13,7 +13,8 @@ class DefaultController
             $vars = [];
             $vars['you'] = $you;
             $vars['name'] = $app['acme_demo.name'];
-            $vars['title'] = "Hello $you";
+            $vars['title'] = $app['translator']->trans("hello") . " $you";
+            $vars['locales'] = ['en', 'fr', 'it'];
             return $app->renderView('@AcmeDemo/default/hello.html.twig', $vars);
         }
         return "hello $you";

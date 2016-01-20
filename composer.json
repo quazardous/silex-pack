@@ -14,9 +14,11 @@
 		}
 	],
 	"require" : {
-		"silex/silex" : "^2.0@dev",
-		"kriswallsmith/assetic": "^1.0",
-		"mheap/Silex-Assetic": "*@dev"
+		"silex/silex" : "^2.0@dev"
+	},
+	"require-dev" : {
+		"kriswallsmith/assetic" : "^1.0",
+		"mheap/Silex-Assetic" : "*@dev"
 	},
 	"autoload" : {
         "psr-4" : {
@@ -31,7 +33,10 @@
     "suggest": {
         "twig/twig": "Allows to use templates with packs",
         "symfony/twig-bridge": "Allows to use the url() function within Twig template",
-        "dflydev/doctrine-orm-service-provider": "Allows pack to manage their own entities",
-        "quazardous/silex-console": "Allows pack to add their own commands"
+        "dflydev/doctrine-orm-service-provider": "Allows packs to manage their own entities",
+        "quazardous/silex-console": "Allows packs to add their own commands",
+        "mheap/Silex-Assetic" : "Allows packs to add assets via assetic",
+        "symfony/translation" : "Allows packs to have translations",
+        "symfony/twig-bridge" : "Twig translation helpers"
     }
 }

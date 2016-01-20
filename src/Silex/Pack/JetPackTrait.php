@@ -44,6 +44,12 @@ trait JetPackTrait
      * @const static::ASSETS_SUBPATH
      */
     //const ASSETS_SUBPATH = 'assets';
+
+    /**
+     * You can define the translations subpath. It's 'locale' by default.
+     * @const static::TRANSLATIONS_SUBPATH
+     */
+    //const TRANSLATIONS_SUBPATH = 'locale';
     
     /**
      * 
@@ -105,19 +111,22 @@ trait JetPackTrait
         $ns = $decamelize ? $decamelized : $this->getName();
         return $ns . ($id ? $separator . $id : '');
     }
-    
+
     /**
      * Decamelize the given string.
-     * @param string $input
+     * 
+     * @param string $input            
      * @return string
      */
-    public static function decamelize($input) {
-      preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
-      $ret = $matches[0];
-      foreach ($ret as &$match) {
-        $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
-      }
-      return implode('_', $ret);
+    public static function decamelize($input)
+    {
+        $matches = null;
+        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+        $ret = $matches[0];
+        foreach ($ret as &$match) {
+            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+        }
+        return implode('_', $ret);
     }
     
     /**
@@ -167,6 +176,20 @@ trait JetPackTrait
         static $path = null;
         if (empty($path)) {
             $subpath = defined('static::ASSETS_SUBPATH') ? static::ASSETS_SUBPATH : 'assets';
+            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+        }
+        return $path;
+    }
+    
+    /**
+     * The path of the translations.
+     * @return string
+     */
+    public function getTranslationsPath()
+    {
+        static $path = null;
+        if (empty($path)) {
+            $subpath = defined('static::TRANSLATIONS_SUBPATH') ? static::TRANSLATIONS_SUBPATH : 'locale';
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
         return $path;

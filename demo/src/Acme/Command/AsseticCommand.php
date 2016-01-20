@@ -22,9 +22,11 @@ class AsseticCommand extends Command
          * @var \SilexAssetic\Assetic\Dumper $dumper
          */
         $dumper = $app['assetic.dumper'];
-        if (isset($app['twig'])) {
-            $dumper->addTwigAssets();
-        }
+//         if (isset($app['twig'])) {
+//             $dumper->setTwig($app['twig'], $app['twig.loader.filesystem']);
+//             $dumper->addTwigAssets();
+//         }
+        
         $dumper->dumpAssets();
     }
 }

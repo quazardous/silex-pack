@@ -38,6 +38,10 @@ class AcmeDemoPack implements JetPackInterface
             ->value('useTemplate', true)
             ->bind($this->_ns('hello'));
         
+        $controllers->match('/{_locale}/hello/{you}', $this->_ns('controller.default:hello'))
+            ->value('useTemplate', true)
+            ->bind($this->_ns('hello_locale'));
+        
         $controllers->match('/item/{id}', $this->_ns('controller.default:item'))
             ->bind($this->_ns('item'));
         
@@ -69,7 +73,6 @@ class AcmeDemoPack implements JetPackInterface
             new FixtureCommand()
         ];
     }
-    
     
     // return some assetic formulae
     public function getAsseticFormulae()

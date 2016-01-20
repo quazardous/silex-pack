@@ -11,6 +11,8 @@ use Assetic\Filter\Yui\CssCompressorFilter;
 use Acme\Command\AsseticCommand;
 use Quazardous\Silex\Console\ConsoleEvent;
 use Quazardous\Silex\Console\ConsoleEvents;
+use Silex\Provider\LocaleServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
 
 $app = new Application();
 
@@ -38,17 +40,22 @@ $app->register(new AsseticServiceProvider(),
     ]
 );
 
-$app->extend('assetic.filter_manager', function($fm, $app) {
-    $fm->set('yui_css', new CssCompressorFilter(
-        __DIR__ . '/../vendor/bin/yuicompressor.jar'
-        ));
-
+$app->extend('assetic.filter_manager', function ($fm, $app) {
+    $fm->set('yui_css', new CssCompressorFilter(__DIR__ . '/../vendor/bin/yuicompressor.jar'));
+    
     return $fm;
 });
 
+// this will make use of the magic _locale url parameter
+$app->register(new LocaleServiceProvider);
+
+$app->register(new TranslationServiceProvider(), [
+    'locale' => 'fr',
+    'locale_fallbacks' => ['en'],
+]);
+
 $app['dispatcher']->addListener(ConsoleEvents::INIT, function (ConsoleEvent $event) use ($app) {
     $console = $event->getConsole();
-
     $console->add(new AsseticCommand());
 });
 
@@ -59,6 +66,7 @@ $app['dispatcher']->addListener(ConsoleEvents::INIT, function (ConsoleEvent $eve
 // - this will expose the entities of the pack to Doctrine
 // - this will add the pack's commands
 // - this will add assetic stuff
+// - this will ass translation stuff
 $app->register(new AcmeDemoPack());
 
 return $app;
