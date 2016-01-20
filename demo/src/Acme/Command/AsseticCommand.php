@@ -17,16 +17,22 @@ class AsseticCommand extends Command
     {
         $app = $this->getApplication()->getContainer();
         
+        // Register our filters to use
+        if (isset($app['assetic.filters']) && is_callable($app['assetic.filters'])) {
+            $app['assetic.filters']($app['assetic.filter_manager']);
+        }
+        
+        // Boot assetic
+        $assetic = $app['assetic'];
+        
         /**
          * 
          * @var \SilexAssetic\Assetic\Dumper $dumper
          */
         $dumper = $app['assetic.dumper'];
         if (isset($app['twig'])) {
-            $dumper->setTwig($app['twig'], $app['twig.loader.filesystem']);
             $dumper->addTwigAssets();
         }
-//         $app['assetic.lazy_asset_manager']->load();
         
         $dumper->dumpAssets();
     }

@@ -13,9 +13,9 @@ use Quazardous\Silex\Console\ConsoleEvent;
 use Quazardous\Silex\Console\ConsoleEvents;
 use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
-use Assetic\Asset\AssetCollection;
-use Assetic\Asset\AssetReference;
-use Assetic\Asset\FileAsset;
+// use Assetic\Asset\AssetCollection;
+// use Assetic\Asset\AssetReference;
+// use Assetic\Asset\FileAsset;
 use Assetic\Filter\Yui\JsCompressorFilter;
 
 $app = new Application();
@@ -59,13 +59,12 @@ $app->register(new AsseticServiceProvider(),
     [
         'assetic.path_to_web' => __DIR__ . '/../web/assets',
         'assetic.path_to_source' => __DIR__ . '/assets',
-        'assetic.options' => ['debug' => true],
+        'assetic.options' => [
+            'debug' => true,
+            'formulae_cache_dir' => __DIR__ . '/cache/assetic/formulae',
+            'auto_dump_assets' => false,
+        ],
         'assetic.formulae' => [
-            'my_plugin' => [
-                ['js/plugin.js'],
-                ['yui_js'],
-                ['output' => 'js/plugin']
-            ],
         ],
     ]
 );

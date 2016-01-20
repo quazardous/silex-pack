@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Pack;
 
 use Pimple\Container;
+use Silex\Application;
 
 /**
  * 
@@ -101,7 +102,7 @@ trait JetPackTrait
      * @param string $input            
      * @return string
      */
-    public static function decamelize($input)
+    protected static function decamelize($input)
     {
         $matches = null;
         preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
@@ -165,6 +166,14 @@ trait JetPackTrait
     }
     
     /**
+     * No assetic formulae by default.
+     */
+    public function getAsseticFormulae()
+    {
+        return [];
+    }
+    
+    /**
      * The path of the translations.
      * @return string
      */
@@ -190,5 +199,29 @@ trait JetPackTrait
      */
     public function getMountHost() {
         return $this->packOptions['mount_host'];;
+    }
+    
+    /**
+     * No controllers by default.
+     */
+    public function connect(Application $app)
+    {
+        return $app['controllers_factory'];
+    }
+    
+    /**
+     * No Twig extension by default.
+     */
+    public function getTwigExtensions()
+    {
+        return [];
+    }
+    
+    /**
+     * No commands by default.
+     */
+    public function getConsoleCommands()
+    {
+        return [];
     }
 }

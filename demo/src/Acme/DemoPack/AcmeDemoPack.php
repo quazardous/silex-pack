@@ -59,24 +59,11 @@ class AcmeDemoPack implements JetPackInterface
         ];
     }
 
-
     // returns commands to add to the console
     public function getConsoleCommands()
     {
         return [
             new FixtureCommand()
-        ];
-    }
-    
-    // return some assetic formulae
-    public function getAsseticFormulae()
-    {
-        return [
-            $this->_ns('css', true, '_') => [
-                ['css/*.css'],
-                ['yui_css'],
-                ['output' => 'css/' . $this->_ns()]
-            ],
         ];
     }
 
