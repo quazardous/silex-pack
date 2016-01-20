@@ -19,6 +19,8 @@ vendor/bin/doctrine orm:generate-proxies
 php ./app/console.php acme:demo:fixture
 php ./app/console.php assetic:dump
 
+(check files permissions)
+
 - http://localhost/acme/demo/hello/david
 - http://localhost/acme/demo/foo : test template override
 - http://localhost/acme/demo/items : test with doctrine

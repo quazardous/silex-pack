@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e0ee8cc811c976d4439e7abf1a3d2d1e",
+    "hash": "56aaf623ed806f34e142eb2ff18900dc",
     "content-hash": "7dba8631fe972f92fb9db7441af9e8c4",
     "packages": [
         {
@@ -1207,18 +1207,22 @@
             "dist": {
                 "type": "path",
                 "url": "../",
-                "reference": "b782bc931c8204375ed6aef2db34e215aaeb6a1d",
+                "reference": "c8f4b9a84ed64488f91c0f996974c6a5d05f9751",
                 "shasum": null
             },
             "require": {
-                "kriswallsmith/assetic": "^1.0",
-                "mheap/silex-assetic": "*@dev",
                 "silex/silex": "^2.0@dev"
             },
+            "require-dev": {
+                "kriswallsmith/assetic": "^1.0",
+                "mheap/silex-assetic": "*@dev"
+            },
             "suggest": {
-                "dflydev/doctrine-orm-service-provider": "Allows pack to manage their own entities",
-                "quazardous/silex-console": "Allows pack to add their own commands",
-                "symfony/twig-bridge": "Allows to use the url() function within Twig template",
+                "dflydev/doctrine-orm-service-provider": "Allows packs to manage their own entities",
+                "mheap/Silex-Assetic": "Allows packs to add assets via assetic",
+                "quazardous/silex-console": "Allows packs to add their own commands",
+                "symfony/translation": "Allows packs to have translations",
+                "symfony/twig-bridge": "Twig translation helpers",
                 "twig/twig": "Allows to use templates with packs"
             },
             "type": "library",
@@ -1242,10 +1246,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Add bundle like system to Silex 2",
+            "description": "Add bundle like framework to Silex 2",
             "keywords": [
+                "assetic",
                 "bundle",
-                "silex"
+                "console",
+                "i18n",
+                "silex",
+                "twig"
             ]
         },
         {

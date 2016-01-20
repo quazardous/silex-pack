@@ -2,10 +2,14 @@
 	"name" : "quazardous/silex-pack",
 	"keywords" : [
         "bundle",
+        "assetic",
+        "twig",
+        "console",
+        "i18n",
         "silex"
     ],
 	"type" : "library",
-	"description" : "Add bundle like system to Silex 2",
+	"description" : "Add bundle like framework to Silex 2",
 	"license" : "MIT",
 	"authors" : [{
 			"name" : "Quazardous",

@@ -10,5 +10,8 @@
     </head>
     <body>
         {% block body %} {% endblock body %}
+        {% javascripts 'js/plugin.js' filter='yui_js' output="js/plugin" %}
+            <script src="{{ asset(asset_url) }}"></script>
+        {% endjavascripts %}
     </body>
 </html>

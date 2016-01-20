@@ -13,6 +13,10 @@ use Quazardous\Silex\Console\ConsoleEvent;
 use Quazardous\Silex\Console\ConsoleEvents;
 use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
+use Assetic\Asset\AssetCollection;
+use Assetic\Asset\AssetReference;
+use Assetic\Asset\FileAsset;
+use Assetic\Filter\Yui\JsCompressorFilter;
 
 $app = new Application();
 
@@ -33,16 +37,42 @@ $app->register(new DoctrineOrmServiceProvider, [
 // we will search for overriden template in app/views/<namespace> which is app/views/AcmeDemo for our little demo pack
 $app->register(new TwigServiceProvider(), ['twig.path' => __DIR__ . '/views']);
 
+$app['assets_url'] = 'assets';
+
+$app['twig'] = $app->extend('twig', function($twig, $app) {
+    $twig->addFunction(new \Twig_SimpleFunction('asset', function ($asset) use ($app) {
+        // implement whatever logic you need to determine the asset path
+        $base = isset($app['request']) && $app['request'] ? $app['request']->getBasePath() . '/' : '';
+        $base .= trim($app['assets_url'], '/') . '/';
+        return sprintf('%s%s', $base, ltrim($asset, '/'));
+    }));
+
+    return $twig;
+});
+
+// Silex 1.x style
+$app['request'] = $app->factory(function ($app) {
+    return $app['request_stack']->getCurrentRequest();
+});
+
 $app->register(new AsseticServiceProvider(),
     [
         'assetic.path_to_web' => __DIR__ . '/../web/assets',
-        'assetic.options' => ['debug' => false],
+        'assetic.path_to_source' => __DIR__ . '/assets',
+        'assetic.options' => ['debug' => true],
+        'assetic.formulae' => [
+            'my_plugin' => [
+                ['js/plugin.js'],
+                ['yui_js'],
+                ['output' => 'js/plugin']
+            ],
+        ],
     ]
 );
 
 $app->extend('assetic.filter_manager', function ($fm, $app) {
     $fm->set('yui_css', new CssCompressorFilter(__DIR__ . '/../vendor/bin/yuicompressor.jar'));
-    
+    $fm->set('yui_js', new JsCompressorFilter(__DIR__ . '/../vendor/bin/yuicompressor.jar'));
     return $fm;
 });
 
