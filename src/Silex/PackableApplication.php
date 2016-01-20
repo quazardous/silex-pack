@@ -8,6 +8,7 @@ use Quazardous\Silex\Api\EntitablePackInterface;
 use Quazardous\Silex\Api\ConsolablePackInterface;
 use Quazardous\Silex\Api\AssetablePackInterface;
 use Quazardous\Silex\Api\TranslatablePackInterface;
+use Quazardous\Silex\Api\OptionnablePackInterface;
 use Pimple\ServiceProviderInterface;
 use Quazardous\Silex\Console\ConsoleEvents;
 use Quazardous\Silex\Console\ConsoleEvent;
@@ -25,9 +26,10 @@ class PackableApplication extends Application
     public function boot()
     {
         $booted = $this->booted;
-        
         if (!$booted) {
             foreach ($this->providers as $provider) {
+                // handle pack's options
+                $this->registerOptionnablePack($provider);
                 // handle pack's entities
                 // must be done before the console boot()
                 $this->registerEntitablePack($provider);
@@ -62,6 +64,7 @@ class PackableApplication extends Application
     public function register(ServiceProviderInterface $provider, array $values = array())
     {
         if ($provider instanceof ConfigurablePackInterface) {
+            $this->registerOptionnablePack($provider);
             $values = \array_merge_recursive_distinct($this->mergeConfigsFromPath($provider->getConfigsPath()), $values);
         }
         parent::register($provider, $values);
@@ -126,6 +129,13 @@ class PackableApplication extends Application
         return $config;
     }
 
+    protected function registerOptionnablePack(ServiceProviderInterface $provider)
+    {
+        if ($provider instanceof OptionnablePackInterface) {
+            $provider->setPackOptions($this);
+        }
+    }
+    
     protected function registerMountablePack(ServiceProviderInterface $provider)
     {
         if ($provider instanceof MountablePackInterface) {

@@ -23,12 +23,6 @@ class AcmeDemoPack implements JetPackInterface
         };
     }
 
-    // mount base url
-    public function getMountPrefix()
-    {
-        return '/acme/demo';
-    }
-
     // a pack is a Silex controller provider
     public function connect(Application $app)
     {

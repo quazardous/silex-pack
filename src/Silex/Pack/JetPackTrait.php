@@ -1,6 +1,8 @@
 <?php
 namespace Quazardous\Silex\Pack;
 
+use Pimple\Container;
+
 /**
  * 
  * Add some basic function to implement needed pack interface.
@@ -14,43 +16,24 @@ trait JetPackTrait
      */
     //const PACK_SUFFIX = 'Pack';
     
-    /**
-     * You can define the templates subpath. It's 'views' by default.
-     * @const static::TWIG_TEMPLATES_SUBPATH
-     */
-    //const TWIG_TEMPLATES_SUBPATH = 'views';
-    
-    /**
-     * You can define the entity subnamespace. It's 'Entity' by default.
-     * @const static::ENTITY_SUBNAMESPACE
-     */
-    //const ENTITY_SUBNAMESPACE = 'Entity';
-
-    /**
-     * You can define the 'use_simple_annotation_reader'. It's true by default.
-     * @const static::ENTITY_USE_SIMPLE_ANNOTATION
-     * @link https://github.com/dflydev/dflydev-doctrine-orm-service-provider
-     */
-    //const ENTITY_USE_SIMPLE_ANNOTATION = true;
-    
-    /**
-     * You can define the configs subpath. It's 'configs' by default.
-     * @const static::CONFIGS_SUBPATH
-     */
-    //const CONFIGS_SUBPATH = 'configs';
-    
-    /**
-     * You can define the assets subpath. It's 'assets' by default.
-     * @const static::ASSETS_SUBPATH
-     */
-    //const ASSETS_SUBPATH = 'assets';
-
-    /**
-     * You can define the translations subpath. It's 'locale' by default.
-     * @const static::TRANSLATIONS_SUBPATH
-     */
-    //const TRANSLATIONS_SUBPATH = 'locale';
-    
+    protected $packOptions = [
+        'twig_templates_subpath' => 'views',
+        'entity_subnamespace' => 'Entity',
+        'entity_use_simple_annotation' => true,
+        'configs_subpath' => 'configs',
+        'assets_subpath' => 'assets',
+        'translations_subpath' => 'locale',
+        'mount_prefix' => '/',
+        'mount_host' => null,
+    ];
+    public function setPackOptions(Container $app) {
+        foreach ($this->packOptions as $key => &$value) {
+            $key = $this->_ns($key);
+            if (isset($app[$key])) {
+                $value = $app[$key];
+            }
+        }
+    }
     /**
      * 
      * @return \ReflectionClass
@@ -88,7 +71,7 @@ trait JetPackTrait
     {
         static $path = null;
         if (empty($path)) {
-            $subpath = defined('static::TWIG_TEMPLATES_SUBPATH') ? static::TWIG_TEMPLATES_SUBPATH : 'views';
+            $subpath = $this->packOptions['twig_templates_subpath'];
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
         return $path;
@@ -137,9 +120,9 @@ trait JetPackTrait
     {
         static $mapping = null;
         if (empty($mapping)) {
-            $subns = defined('static::ENTITY_SUBNAMESPACE') ? static::ENTITY_SUBNAMESPACE : 'Entity';
+            $subns = $this->packOptions['entity_subnamespace'];
             $subns = trim($subns, '\\');
-            $simple = defined('static::ENTITY_USE_SIMPLE_ANNOTATION') ? static::ENTITY_USE_SIMPLE_ANNOTATION : true;
+            $simple = $this->packOptions['entity_use_simple_annotation'];
             $ns = $this->getReflector()->getNamespaceName() . '\\' . $subns;
             $subpath = str_replace('\\', '/', $subns);
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
@@ -161,7 +144,7 @@ trait JetPackTrait
     {
         static $path = null;
         if (empty($path)) {
-            $subpath = defined('static::CONFIGS_SUBPATH') ? static::CONFIGS_SUBPATH : 'configs';
+            $subpath = $this->packOptions['configs_subpath'];
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
         return $path;
@@ -175,7 +158,7 @@ trait JetPackTrait
     {
         static $path = null;
         if (empty($path)) {
-            $subpath = defined('static::ASSETS_SUBPATH') ? static::ASSETS_SUBPATH : 'assets';
+            $subpath = $this->packOptions['assets_subpath'];
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
         return $path;
@@ -189,7 +172,7 @@ trait JetPackTrait
     {
         static $path = null;
         if (empty($path)) {
-            $subpath = defined('static::TRANSLATIONS_SUBPATH') ? static::TRANSLATIONS_SUBPATH : 'locale';
+            $subpath = $this->packOptions['translations_subpath'];
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
         return $path;
@@ -199,13 +182,13 @@ trait JetPackTrait
      * By default mount the pack on '/'.
      */
     public function getMountPrefix() {
-        return '/';
+        return $this->packOptions['mount_prefix'];
     }
     
     /**
      * No specific host by default.
      */
     public function getMountHost() {
-        return null;
+        return $this->packOptions['mount_host'];;
     }
 }

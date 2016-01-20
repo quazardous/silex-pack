@@ -67,6 +67,8 @@ $app['dispatcher']->addListener(ConsoleEvents::INIT, function (ConsoleEvent $eve
 // - this will add the pack's commands
 // - this will add assetic stuff
 // - this will ass translation stuff
-$app->register(new AcmeDemoPack());
+$app->register(new AcmeDemoPack(), [
+    'acme_demo.mount_prefix' => '/acme/demo',
+]);
 
 return $app;

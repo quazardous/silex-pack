@@ -67,6 +67,13 @@ Packs can have translations.
 You can provide yaml files, xliff files or php files (returning a key => translation array).
 
 
+### optionnable pack
+
+You can inject common options into your pack.
+
+see Usage bellow.
+
+
 ## Usage
 
 Use Quazardous\Silex\PackableApplication instead of Silex\Application.
@@ -82,6 +89,8 @@ $app->register(new AcmeDemoPack());
 ...
 ```
 
+
+
 Silex Pack provides a basic dropin trait implementation for the trivial functions:
 
 -> Quazardous\Silex\Pack\JetPackTrait
@@ -89,6 +98,20 @@ Silex Pack provides a basic dropin trait implementation for the trivial function
 And a all in one interface:
 
 -> Quazardous\Silex\Pack\JetPackInterface
+
+So with JetPackInterface + JetPackTrait you just have to provide some options: 
+
+
+```php
+...
+$app->register(new AcmeDemoPack(), [
+    'acme_demo.mount_prefix' => '/acme/demo',
+]);
+...
+```
+
+See JetPackTrait::$packOptions.
+
 
 ## Pack folders
 
