@@ -17,6 +17,11 @@ class WatchingDumper extends BaseDumper
      * @var \Symfony\Component\Console\Output\OutputInterface
      */
     protected $commandOutput = null;
+    
+    /**
+     * Start watch mode for command assetic:watch.
+     * @param OutputInterface $output
+     */
     public function watch(OutputInterface $output = null) {
         $this->watching = true;
         $this->commandOutput = $output;
@@ -29,15 +34,6 @@ class WatchingDumper extends BaseDumper
         $this->pathToWeb = $pathToWeb;
     }
     
-    /**
-     * Dumps the assets of given manager
-     *
-     * Doesn't use AssetWriter::writeManagerAssets since we also want to dump non-combined assets
-     * (for example, when using twig extension in debug mode).
-     *
-     * @param AssetManager $am
-     * @param AssetWriter  $writer
-     */
     protected function dumpManagerAssets(AssetManager $am)
     {
         foreach ($am->getNames() as $name) {
