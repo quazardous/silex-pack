@@ -31,7 +31,7 @@
             "Quazardous\\Assetic\\" : "src/Assetic"
         },
         "files" : [
-            "src/functions/array_merge_recursive_distinct.php",
+            "src/functions/array_merge_recursive_config.php",
             "src/functions/topological_sort.php"
         ]
     },

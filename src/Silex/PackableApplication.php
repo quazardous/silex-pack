@@ -66,7 +66,7 @@ class PackableApplication extends Application
     {
         if ($provider instanceof ConfigurablePackInterface) {
             $this->registerOptionnablePack($provider);
-            $values = \array_merge_recursive_distinct($this->mergeConfigsFromPath($provider->getConfigsPath()), $values);
+            $values = \array_merge_recursive_config($this->mergeConfigsFromPath($provider->getConfigsPath()), $values);
         }
         parent::register($provider, $values);
         
@@ -124,7 +124,7 @@ class PackableApplication extends Application
         // merge them in a logical order
         $config = [];
         foreach ($ids as $id) {
-            $config = \array_merge_recursive_distinct($config, $configs[$id]);
+            $config = \array_merge_recursive_config($config, $configs[$id]);
         }
         
         return $config;

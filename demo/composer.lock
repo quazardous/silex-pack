@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "56aaf623ed806f34e142eb2ff18900dc",
+    "hash": "191d95676757a3e1fb4e83ada2c7920c",
     "content-hash": "7dba8631fe972f92fb9db7441af9e8c4",
     "packages": [
         {
@@ -1207,7 +1207,7 @@
             "dist": {
                 "type": "path",
                 "url": "../",
-                "reference": "c8f4b9a84ed64488f91c0f996974c6a5d05f9751",
+                "reference": "0f172d2622b3d53c797b8e85609e59e572112c53",
                 "shasum": null
             },
             "require": {
@@ -1215,7 +1215,8 @@
             },
             "require-dev": {
                 "kriswallsmith/assetic": "^1.0",
-                "mheap/silex-assetic": "*@dev"
+                "mheap/silex-assetic": "*@dev",
+                "quazardous/silex-console": "*@dev"
             },
             "suggest": {
                 "dflydev/doctrine-orm-service-provider": "Allows packs to manage their own entities",
@@ -1232,7 +1233,7 @@
                     "Quazardous\\Assetic\\": "src/Assetic"
                 },
                 "files": [
-                    "src/functions/array_merge_recursive_distinct.php",
+                    "src/functions/array_merge_recursive_config.php",
                     "src/functions/topological_sort.php"
                 ]
             },
