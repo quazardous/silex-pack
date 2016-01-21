@@ -290,7 +290,12 @@ class PackableApplication extends Application
                         
                         
                     }
-                    mkdir(dirname($dest), $mode, true);
+                    if (!is_dir(dirname($dest))) {
+                        mkdir(dirname($dest), $mode, true);
+                    }
+                    if (is_link($dest)) {
+                        unlink($dest);
+                    }
                     symlink($source, $dest);
                 }
             }
