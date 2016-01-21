@@ -155,6 +155,7 @@ A pack has no strict structure but it should be very similar to bundle:
 |   |   +-- configs/
 |   |   +-- fixtures/
 |   |   +-- locales/
+|   |   +-- public/
 |   |   +-- views/
 |   |
 |   +-- BetaPack/
