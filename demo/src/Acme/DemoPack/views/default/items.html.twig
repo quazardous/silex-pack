@@ -1,9 +1,0 @@
-{% extends '@AcmeDemo/default/layout.html.twig' %}
-
-{% block content %}
-<p>
-{% for item in items %}
-<div><a href="{{ url('acme_demo.item', {'id': item.id}) }}">{{ item.id }}: {{ item.value }}</a></div>
-{% endfor %}
-</p>
-{% endblock content %}
