@@ -88,7 +88,9 @@ see Usage bellow.
 
 ## Usage
 
-### Register
+### Install
+
+    composer require quazardous/silex-pack
 
 Use Quazardous\Silex\PackableApplication instead of Silex\Application.
 
@@ -102,6 +104,8 @@ use Acme\DemoPack\AcmeDemoPack;
 $app->register(new AcmeDemoPack());
 ...
 ```
+
+Enjoy (or not) !
 
 ### Jet pack
 
