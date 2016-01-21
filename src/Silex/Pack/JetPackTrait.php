@@ -22,6 +22,7 @@ trait JetPackTrait
         'entity_subnamespace' => 'Entity',
         'entity_use_simple_annotation' => true,
         'configs_subpath' => 'configs',
+        'public_subpath' => 'public',
         'assets_subpath' => 'assets',
         'translations_subpath' => 'locale',
         'mount_prefix' => '/',
@@ -223,5 +224,29 @@ trait JetPackTrait
     public function getConsoleCommands()
     {
         return [];
+    }
+    
+    /**
+     * A list of symlinks to add.
+     */
+    public function getSymlinks() 
+    {
+        $symlinks = [];
+        if ($this->getPublicPath()) {
+            $symlinks[$this->getPublicPath()] = 'packs/' . $this->_ns();
+        }
+        return $symlinks;
+    }
+    
+    /**
+     * By default, public is the public folder.
+     */
+    public function getPublicPath() {
+        static $path = null;
+        if (empty($path)) {
+            $subpath = $this->packOptions['public_subpath'];
+            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+        }
+        return $path;
     }
 }

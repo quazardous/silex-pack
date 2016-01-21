@@ -16,6 +16,8 @@ $app = new Application();
 
 $app['debug'] = true;
 
+$app['path_to_web'] = __DIR__ . '/../web';
+
 $app->register(new DoctrineServiceProvider, [
     'db.options' => [
         'driver' => 'pdo_sqlite',
@@ -34,10 +36,10 @@ $app->register(new TwigServiceProvider(), ['twig.path' => __DIR__ . '/views']);
 $app['assets_url'] = 'assets';
 
 $app['twig'] = $app->extend('twig', function($twig, $app) {
-    $twig->addFunction(new \Twig_SimpleFunction('asset', function ($asset) use ($app) {
+    $twig->addFunction(new \Twig_SimpleFunction('asset', function ($asset, $sub = '') use ($app) {
         // implement whatever logic you need to determine the asset path
         $base = isset($app['request']) && $app['request'] ? $app['request']->getBasePath() . '/' : '';
-        $base .= trim($app['assets_url'], '/') . '/';
+        if ($sub) $base .= trim($sub, '/') . '/';
         return sprintf('%s%s', $base, ltrim($asset, '/'));
     }));
 

@@ -67,9 +67,19 @@ Packs can have translations.
 You can provide yaml files, xliff files or php files (returning a key => translation array).
 
 
+### linkable pack
+
+You can create symlinks between project and pack (ie. for public files).
+
+-> Quazardous\Silex\Api\LinkablePackInterface
+
+You'll have to execute the provided command pack:symlinks.
+
 ### optionnable pack
 
 You can inject common options into your pack.
+
+-> Quazardous\Silex\Api\OptionnablePackInterface
 
 see Usage bellow.
 
@@ -115,15 +125,20 @@ $app->register(new AcmeDemoPack(), [
 See JetPackTrait::$packOptions.
 
 
-### Assetic commands
+### Commands
 
-Silex pack provides assetic commands.
+Silex pack provides assetic commands:
 
 - assetic:dump : dumps the assets
 - assetic:watch : watches the assets ans dumps if modifications
 
 -> Quazardous\Silex\Provider\AsseticCommandsProvider
 
+Silex pack provides pack commands:
+
+- pack:symlinks : create pack symlinks
+
+-> Quazardous\Silex\Provider\PackCommandsProvider
 
 ## Pack folders
 

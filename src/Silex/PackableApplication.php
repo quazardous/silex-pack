@@ -16,6 +16,7 @@ use Quazardous\Silex\Api\ConfigurablePackInterface;
 use Silex\Api\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Quazardous\Assetic\Factory\NamespaceAwareAssetFactory;
+use Quazardous\Silex\Api\LinkablePackInterface;
 
 /**
  * Application which knows how to handle packs.
@@ -263,6 +264,31 @@ class PackableApplication extends Application
                     if (is_dir($dir)) {
                         $this['twig.loader.filesystem']->prependPath($dir, $ns);
                     }
+                }
+            }
+        }
+    }
+    
+    public function createPackSymlinks($mode = 0755)
+    {
+        foreach ($this->providers as $provider) {
+            if ($provider instanceof LinkablePackInterface) {
+                $reflector = new \ReflectionClass($provider);
+                $symlinks = $provider->getSymlinks();
+                foreach ($symlinks as $source => $dest) {
+                    if ($source[0] != '/') {
+                        $source = dirname($reflector->getFileName()) . '/' . $source;
+                    }
+                    if ($dest[0] != '/') {
+                        if (empty($this['path_to_web']) && empty($this['assetic.path_to_web'])) {
+                            throw new \RuntimeException("Cannot determine the web folder");
+                        }
+                        $dest = (isset($this['path_to_web']) ? $this['path_to_web'] : $this['assetic.path_to_web']) . '/' . $dest;
+                        
+                        
+                    }
+                    mkdir(dirname($dest), $mode, true);
+                    symlink($source, $dest);
                 }
             }
         }
