@@ -109,7 +109,10 @@ class PackableApplication extends Application
             $configs[$id] = include $configFile;
             $ids[] = $id;
             if (isset($configs[$id]['_import'])) {
-                $dependencies[] = [$configs[$id]['_import'], $id];
+                $configs[$id]['_import'] = (array) $configs[$id]['_import'];
+                foreach ($configs[$id]['_import'] as $dependency) {
+                    $dependencies[] = [$dependency, $id];
+                }
                 unset($configs[$id]['_import']);
             }
         }
