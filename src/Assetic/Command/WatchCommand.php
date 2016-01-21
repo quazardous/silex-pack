@@ -42,9 +42,17 @@ class WatchCommand extends Command
         while (true) {
             $dumper->dumpAssets();
             clearstatcache();
+            gc_collect_cycles();
             sleep(5);
-            // reload templates
+            
+            // try to avoid memory leak...
             $app['assetic.lazy_asset_manager']->clear();
+            $class = new \ReflectionClass($app['assetic.lazy_asset_manager']);
+            $property = $class->getProperty("resources");
+            $property->setAccessible(true);
+            $property->setValue($app['assetic.lazy_asset_manager'], []);
+            
+            // reload templates
             if (isset($app['twig'])) {
                 $dumper->addTwigAssets();
             }
