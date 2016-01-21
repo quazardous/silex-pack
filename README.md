@@ -165,3 +165,6 @@ A pack has no strict structure but it should be very similar to bundle:
 ## Demo
 
 See the demo for more details (read demo/README).
+
+You can use it as a bootstrap project. Just copy and rename the demo folder.
+
