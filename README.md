@@ -164,7 +164,8 @@ A pack has no strict structure but it should be very similar to bundle:
 
 ## Demo
 
-See the demo for more details (read demo/README).
+See a full working demo at:
+https://github.com/quazardous/silex-pack-demo
 
-You can use it as a bootstrap project. Just copy and rename the demo folder.
+You can use it as a quick bootstrap project. 
 
