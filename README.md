@@ -1,6 +1,8 @@
 # silex-pack
 Add bundle like system to Silex 2
 
+There is a [demo project](#demo) !
+
 ## What ?
 
 Silex Pack add some automation in the following stuff:
