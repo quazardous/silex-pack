@@ -176,7 +176,7 @@ class PackableApplication extends Application
             if (empty($options['mappings'])) {
                 $options['mappings'] = [];
             }
-            $options['mappings'] += $provider->getEntityMappings();
+            $options['mappings'] = array_merge($options['mappings'], $provider->getEntityMappings());
             $this['orm.em.options'] = $options;
         }
     }

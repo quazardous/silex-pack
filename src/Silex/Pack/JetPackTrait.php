@@ -41,11 +41,12 @@ trait JetPackTrait
      * @return \ReflectionClass
      */
     protected function getReflector() {
-        static $reflector = null;
-        if (empty($reflector)) {
-            $reflector = new \ReflectionClass($this);
+        static $reflectors = [];
+        $me = get_class($this);
+        if (empty($reflectors[$me])) {
+            $reflectors[$me] = new \ReflectionClass($this);
         }
-        return $reflector;
+        return $reflectors[$me];
     }
     
     /**
@@ -54,15 +55,16 @@ trait JetPackTrait
      */
     public function getName()
     {
-        static $name = null;
-        if (empty($name)) {
-            $name = $this->getReflector()->getShortName();
+        static $names = [];
+        $me = get_class($this);
+        if (empty($names[$me])) {
+            $names[$me] = $this->getReflector()->getShortName();
             $suffix = defined('static::PACK_SUFFIX') ? static::PACK_SUFFIX : 'Pack';
-            if (strrpos($name, $suffix) == (strlen($name) - strlen($suffix))) {
-                $name = substr($name, 0, strlen($name) - strlen($suffix));
+            if (strrpos($names[$me], $suffix) == (strlen($names[$me]) - strlen($suffix))) {
+                $names[$me] = substr($names[$me], 0, strlen($names[$me]) - strlen($suffix));
             }
         }
-        return $name;
+        return $names[$me];
     }
     
     /**
@@ -71,12 +73,13 @@ trait JetPackTrait
      */
     public function getTwigTemplatesPath()
     {
-        static $path = null;
-        if (empty($path)) {
+        static $paths = [];
+        $me = get_class($this);
+        if (empty($paths[$me])) {
             $subpath = $this->packOptions['twig_templates_subpath'];
-            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+            $paths[$me] = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
-        return $path;
+        return $paths[$me];
     }
     
     /**
@@ -89,11 +92,12 @@ trait JetPackTrait
      * @return string the pack namespaced id
      */
     protected function _ns($id = null, $decamelize = true, $separator = '.') {
-        static $decamelized = null;
-        if ($decamelize && empty($decamelized)) {
-            $decamelized = static::decamelize($this->getName());
+        static $decamelizeds = [];
+        $me = get_class($this);
+        if ($decamelize && empty($decamelizeds[$me])) {
+            $decamelizeds[$me] = static::decamelize($this->getName());
         }
-        $ns = $decamelize ? $decamelized : $this->getName();
+        $ns = $decamelize ? $decamelizeds[$me] : $this->getName();
         return $ns . ($id ? $separator . $id : '');
     }
 
@@ -120,22 +124,23 @@ trait JetPackTrait
      */
     public function getEntityMappings()
     {
-        static $mapping = null;
-        if (empty($mapping)) {
+        static $mappings = [];
+        $me = get_class($this);
+        if (empty($mappings[$me])) {
             $subns = $this->packOptions['entity_subnamespace'];
             $subns = trim($subns, '\\');
             $simple = $this->packOptions['entity_use_simple_annotation'];
             $ns = $this->getReflector()->getNamespaceName() . '\\' . $subns;
             $subpath = str_replace('\\', '/', $subns);
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
-            $mapping = [
+            $mappings[$me] = [
                 'type' => 'annotation',
                 'namespace' => $ns,
                 'path' => $path,
                 'use_simple_annotation_reader' => $simple,
             ];
         }
-        return [$mapping];
+        return [$mappings[$me]];
     }
     
     /**
@@ -144,12 +149,13 @@ trait JetPackTrait
      */
     public function getConfigsPath()
     {
-        static $path = null;
-        if (empty($path)) {
+        static $paths = [];
+        $me = get_class($this);
+        if (empty($paths[$me])) {
             $subpath = $this->packOptions['configs_subpath'];
-            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+            $paths[$me] = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
-        return $path;
+        return $paths[$me];
     }
     
     /**
@@ -158,12 +164,13 @@ trait JetPackTrait
      */
     public function getAssetsPath()
     {
-        static $path = null;
-        if (empty($path)) {
+        static $paths = [];
+        $me = get_class($this);
+        if (empty($paths[$me])) {
             $subpath = $this->packOptions['assets_subpath'];
-            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+            $paths[$me] = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
-        return $path;
+        return $paths[$me];
     }
     
     /**
@@ -180,12 +187,13 @@ trait JetPackTrait
      */
     public function getTranslationsPath()
     {
-        static $path = null;
-        if (empty($path)) {
+        static $paths = [];
+        $me = get_class($this);
+        if (empty($paths[$me])) {
             $subpath = $this->packOptions['translations_subpath'];
-            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+            $paths[$me] = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
-        return $path;
+        return $paths[$me];
     }
     
     /**
@@ -242,11 +250,12 @@ trait JetPackTrait
      * By default, public is the public folder.
      */
     public function getPublicPath() {
-        static $path = null;
-        if (empty($path)) {
+        static $paths = [];
+        $me = get_class($this);
+        if (empty($paths[$me])) {
             $subpath = $this->packOptions['public_subpath'];
-            $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
+            $paths[$me] = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
         }
-        return $path;
+        return $paths[$me];
     }
 }
