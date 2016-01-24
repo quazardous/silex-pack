@@ -225,3 +225,8 @@ See a [full working demo](https://github.com/quazardous/silex-pack-demo).
 
 You can use it as a quick bootstrap for your project. 
 
+Features Silex User Pack (see below).
+
+## Some pack projects
+- [Silex User Pack](http://github.com/quazardous/silex-user-pack): user security helper pack
+
