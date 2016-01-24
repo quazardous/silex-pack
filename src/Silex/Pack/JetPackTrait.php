@@ -133,12 +133,17 @@ trait JetPackTrait
             $ns = $this->getReflector()->getNamespaceName() . '\\' . $subns;
             $subpath = str_replace('\\', '/', $subns);
             $path = dirname($this->getReflector()->getFileName()) . '/' . $subpath;
-            $mappings[$me] = [
-                'type' => 'annotation',
-                'namespace' => $ns,
-                'path' => $path,
-                'use_simple_annotation_reader' => $simple,
-            ];
+            if (is_dir($path)) {
+                $mappings[$me] = [
+                    'type' => 'annotation',
+                    'namespace' => $ns,
+                    'path' => $path,
+                    'use_simple_annotation_reader' => $simple,
+                ];
+            }
+        }
+        if (empty($mappings[$me])) {
+            return [];
         }
         return [$mappings[$me]];
     }
