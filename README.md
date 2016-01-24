@@ -5,43 +5,43 @@ There is a [demo project](#demo) !
 
 ## What ?
 
-Silex Pack add some automation in the following stuff:
+Silex Pack add some code structuring in the following stuff:
 
 ### mountable pack
 
 Packs can provides controllers and prefix where to mount.
 
--> Quazardous\Silex\Api\MountablePackInterface
+Implement `Quazardous\Silex\Api\MountablePackInterface`
 
 ### twiggable pack
 
 Packs can define private Twig templates folder with override capability from the application templates folder.
 
--> Quazardous\Silex\Api\TwiggablePackInterface
+Implement `Quazardous\Silex\Api\TwiggablePackInterface`
 
 ### entitable pack
 
 Packs can expose entites to Doctrine ORM.
 
--> Quazardous\Silex\Api\EntitablePackInterface
+Implement `Quazardous\Silex\Api\EntitablePackInterface`
 
 ### consolable pack
 
 Packs can add commands to the console.
 
--> Quazardous\Silex\Api\ConsolablePackInterface
+Implement `Quazardous\Silex\Api\ConsolablePackInterface`
 
 ### configurable pack
 
 Packs can have config files. All the config files will be injected into the application container.
 
--> Quazardous\Silex\Api\ConfigurablePackInterface
+Implement `Quazardous\Silex\Api\ConfigurablePackInterface`
 
 ### assetable pack
 
 Packs can have assets.
 
--> Quazardous\Silex\Api\AssetablePackInterface
+Implement `Quazardous\Silex\Api\AssetablePackInterface`
 
 ```twig
 ...
@@ -54,17 +54,17 @@ Packs can have assets.
 
 You have to register the provided Assetic service provider because we have to inject a "namespace aware" asset factory.
 
--> Quazardous\Silex\Provider\AsseticServiceProvider
+See `Quazardous\Silex\Provider\AsseticServiceProvider`
 
 The dump is done in the standard `$app['assetic.path_to_web']`.
 
-See https://github.com/mheap/Silex-Assetic.
+See [Silex Assetic](https://github.com/mheap/Silex-Assetic).
 
 ### translatable pack
 
 Packs can have translations.
 
--> Quazardous\Silex\Api\TranslatablePackInterface
+Implement `Quazardous\Silex\Api\TranslatablePackInterface`
 
 You can provide yaml files, xliff files or php files (returning a key => translation array).
 
@@ -73,7 +73,7 @@ You can provide yaml files, xliff files or php files (returning a key => transla
 
 You can create symlinks between project and pack (ie. for public files).
 
--> Quazardous\Silex\Api\LinkablePackInterface
+Implement `Quazardous\Silex\Api\LinkablePackInterface`
 
 You'll have to execute the provided command `pack:symlinks`.
 
@@ -81,7 +81,7 @@ You'll have to execute the provided command `pack:symlinks`.
 
 You can inject common options into your pack.
 
--> Quazardous\Silex\Api\OptionnablePackInterface
+Implement `Quazardous\Silex\Api\OptionnablePackInterface`
 
 ```php
 ...
@@ -101,7 +101,7 @@ See below.
 
     composer require quazardous/silex-pack
 
-Use Quazardous\Silex\PackableApplication instead of Silex\Application.
+Use `Quazardous\Silex\PackableApplication` instead of `Silex\Application`.
 
 Implements the interfaces you need and register your pack as a classic service provider.
 
@@ -120,13 +120,13 @@ Enjoy (or not) !
 
 Silex Pack provides a basic dropin trait implementation for the trivial functions:
 
--> Quazardous\Silex\Pack\JetPackTrait
+Use `Quazardous\Silex\Pack\JetPackTrait`
 
 And a all in one interface:
 
--> Quazardous\Silex\Pack\JetPackInterface
+Implement `Quazardous\Silex\Pack\JetPackInterface`
 
-So with JetPackInterface + JetPackTrait you just have to provide some options: 
+So with `JetPackInterface` + `JetPackTrait` you should just have to provide some options: 
 
 
 ```php
@@ -140,27 +140,29 @@ $app->register(new AcmeDemoPack(), [
 
 The user pack namespace `acme_demo.` is derived from `PackInterface::getName()` wich result is decamelize.
 
-See `JetPackTrait::$packOptions`.
+See `JetPackTrait::$packOptions` for a list of all options.
 
 
 ### Commands
 
+Silex pack uses [Sillex Console](https://github.com/quazardous/silex-console).
+
 Silex pack provides assetic commands:
 
-- assetic:dump : dumps the assets
-- assetic:watch : watches the assets ans dumps if modifications
+- `assetic:dump` : dumps the assets
+- `assetic:watch` : watches the assets ans dumps if modifications
 
--> Quazardous\Silex\Provider\AsseticCommandsProvider
+Register `Quazardous\Silex\Provider\AsseticCommandsProvider`
 
 Silex pack provides pack commands:
 
-- pack:symlinks : create pack symlinks
+- `pack:symlinks` : create pack symlinks
 
--> Quazardous\Silex\Provider\PackCommandsProvider
+Register `Quazardous\Silex\Provider\PackCommandsProvider`
 
 ## Pack folders
 
-A pack has no strict structure but it should be very similar to bundle:
+A pack has no strict structure but it could/should be very similar to bundle:
 
 ```
 +-- Acme/ :
@@ -182,8 +184,7 @@ A pack has no strict structure but it should be very similar to bundle:
 
 ## Demo
 
-See a full working demo at:
-https://github.com/quazardous/silex-pack-demo
+See a [full working demo](https://github.com/quazardous/silex-pack-demo).
 
-You can use it as a quick bootstrap project. 
+You can use it as a quick bootstrap for your project. 
 
