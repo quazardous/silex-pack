@@ -17,6 +17,8 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Quazardous\Assetic\Factory\NamespaceAwareAssetFactory;
 use Quazardous\Silex\Api\LinkablePackInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Application which knows how to handle packs.
@@ -46,8 +48,6 @@ class PackableApplication extends Application
         
         if (!$booted) {
             foreach ($this->providers as $provider) {
-                // connect pack
-                $this->registerMountablePack($provider);
                 // handle twig pack
                 $this->registerTwiggablePack($provider);
                 // add namespace to assetic
@@ -96,6 +96,20 @@ class PackableApplication extends Application
         $this['controllers']->mount($prefix, $controllers);
 
         return $this;
+    }
+    
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    {
+        if (!$this->booted) {
+            $this->boot();
+        }
+        foreach ($this->providers as $provider) {
+            // connect pack
+            $this->registerMountablePack($provider);          
+        }
+        $this->flush();
+
+        return $this['kernel']->handle($request, $type, $catch);
     }
     
     protected function mergeConfigsFromPath($path) {

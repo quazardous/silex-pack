@@ -32,7 +32,7 @@ interface AssetablePackInterface extends TwiggablePackInterface
     public function getAsseticFormulae();
     
     /**
-     * If you return relative input paths in the formulae, the application will preffix them with getAssetsPath().
+     * If you return relative input paths in the formulae, the application will prefix them with getAssetsPath().
      */
     public function getAssetsPath();
     
