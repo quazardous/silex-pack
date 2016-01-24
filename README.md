@@ -1,11 +1,11 @@
 # silex-pack
-Add bundle like system to Silex 2
+Add bundle like system to Silex 2.x
 
 There is a [demo project](#demo) !
 
 ## What ?
 
-Silex Pack add some code structuring in the following stuff:
+Silex Pack add some code structuring in your Silex project. It mimics the [Symfony Bundle](http://symfony.com/doc/current/cookbook/bundles/best_practices.html) feature.
 
 ### mountable pack
 
@@ -13,11 +13,40 @@ Packs can provides controllers and prefix where to mount.
 
 Implement `Quazardous\Silex\Api\MountablePackInterface`
 
+
 ### twiggable pack
 
 Packs can define private Twig templates folder with override capability from the application templates folder.
 
 Implement `Quazardous\Silex\Api\TwiggablePackInterface`
+
+Silex pack will register a `@AcmeDemo` namespace with Twig. `@AcmeDemo` is created from `PackInterface::getName()`.
+
+Now you can use something like that in your controllers:
+
+```php
+...
+return $app->renderView('@AcmeDemo/default/hello.html.twig', $vars);
+...
+```
+
+Within `.twig` templates, you can also use `@AcmeDemo`, ie for `extends` clause:
+
+```twig
+{% extends '@AcmeDemo/base.html.twig' %}
+...
+```
+
+If you register `twig.path`, Silex Pack will look for overriden templates in these folders.
+
+```php
+...
+$app->register(new TwigServiceProvider(), ['twig.path' => '/path/to/app/views']);
+...
+```
+
+For `@AcmeDemo/default/hello.html.twig` we will look for in `/path/to/app/views/AcmeDemo/default/hello.html.twig`. Cute no ?
+
 
 ### entitable pack
 
@@ -25,17 +54,20 @@ Packs can expose entites to Doctrine ORM.
 
 Implement `Quazardous\Silex\Api\EntitablePackInterface`
 
+
 ### consolable pack
 
 Packs can add commands to the console.
 
 Implement `Quazardous\Silex\Api\ConsolablePackInterface`
 
+
 ### configurable pack
 
 Packs can have config files. All the config files will be injected into the application container.
 
 Implement `Quazardous\Silex\Api\ConfigurablePackInterface`
+
 
 ### assetable pack
 
@@ -52,13 +84,17 @@ Implement `Quazardous\Silex\Api\AssetablePackInterface`
 
 ```
 
-You have to register the provided Assetic service provider because we have to inject a "namespace aware" asset factory.
+You have to register the provided Assetic service provider because we have to inject a "namespace aware" assetic factory.
+
+The provided `assetic.factory` knows how to handle paths with `@AcmeDemo` prefix.
+
+`@AcmeDemo` is derived from `PackInterface::getName()`.
 
 See `Quazardous\Silex\Provider\AsseticServiceProvider`
 
-The dump is done in the standard `$app['assetic.path_to_web']`.
+The assets dump is done in the standard `$app['assetic.path_to_web']`.
 
-See [Silex Assetic](https://github.com/mheap/Silex-Assetic).
+See [Silex Assetic](https://github.com/mheap/Silex-Assetic) from more info on this provider.
 
 ### translatable pack
 
@@ -76,6 +112,7 @@ You can create symlinks between project and pack (ie. for public files).
 Implement `Quazardous\Silex\Api\LinkablePackInterface`
 
 You'll have to execute the provided command `pack:symlinks`.
+
 
 ### optionnable pack
 
