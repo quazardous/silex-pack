@@ -9,7 +9,7 @@
         "silex"
     ],
 	"type" : "library",
-	"description" : "Add bundle like framework to Silex 2",
+	"description" : "A bundle like framework for Silex 2.x",
 	"license" : "MIT",
 	"authors" : [{
 			"name" : "Quazardous",
