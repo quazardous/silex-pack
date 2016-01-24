@@ -56,7 +56,7 @@ You have to register the provided Assetic service provider because we have to in
 
 -> Quazardous\Silex\Provider\AsseticServiceProvider
 
-The dump is done in the standard $app['assetic.path_to_web'].
+The dump is done in the standard `$app['assetic.path_to_web']`.
 
 See https://github.com/mheap/Silex-Assetic.
 
@@ -75,7 +75,7 @@ You can create symlinks between project and pack (ie. for public files).
 
 -> Quazardous\Silex\Api\LinkablePackInterface
 
-You'll have to execute the provided command pack:symlinks.
+You'll have to execute the provided command `pack:symlinks`.
 
 ### optionnable pack
 
@@ -83,7 +83,15 @@ You can inject common options into your pack.
 
 -> Quazardous\Silex\Api\OptionnablePackInterface
 
-see Usage bellow.
+```php
+...
+$app->register(new AcmeDemoPack(), [
+    'acme_demo.mount_prefix' => '/acme/demo',
+    'acme_demo.entity_subnamespace' => 'Model',
+]);
+...
+
+See below.
 
 
 ## Usage
@@ -124,11 +132,14 @@ So with JetPackInterface + JetPackTrait you just have to provide some options:
 ...
 $app->register(new AcmeDemoPack(), [
     'acme_demo.mount_prefix' => '/acme/demo',
+    'entity_subnamespace' => 'Model',
 ]);
 ...
 ```
 
-See JetPackTrait::$packOptions.
+The user pack namespace `acme_demo.` is derived from `PackInterface::getName()` wich result is decamelize.
+
+See `JetPackTrait::$packOptions`.
 
 
 ### Commands
