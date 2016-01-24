@@ -20,7 +20,7 @@ Packs can define private Twig templates folder with override capability from the
 
 Implement `Quazardous\Silex\Api\TwiggablePackInterface`
 
-Silex pack will register a `@AcmeDemo` namespace with Twig. `@AcmeDemo` is created from `PackInterface::getName()`.
+For a pack class `AcmeDemoPack` Silex pack will register a `@AcmeDemo` namespace with Twig. `@AcmeDemo` is created from `PackInterface::getName()`.
 
 Now you can use something like that in your controllers:
 
