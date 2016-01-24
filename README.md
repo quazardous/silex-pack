@@ -90,6 +90,7 @@ $app->register(new AcmeDemoPack(), [
     'acme_demo.entity_subnamespace' => 'Model',
 ]);
 ...
+```
 
 See below.
 
