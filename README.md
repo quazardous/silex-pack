@@ -187,7 +187,7 @@ Silex pack uses [Sillex Console](https://github.com/quazardous/silex-console).
 Silex pack provides assetic commands:
 
 - `assetic:dump` : dumps the assets
-- `assetic:watch` : watches the assets ans dumps if modifications
+- `assetic:watch` : watches the assets and dumps if modifications
 
 Register `Quazardous\Silex\Provider\AsseticCommandsProvider`
 
