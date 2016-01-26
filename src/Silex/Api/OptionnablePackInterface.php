@@ -13,6 +13,7 @@ interface OptionnablePackInterface extends PackInterface
 {
     /**
      * Try to get the pack options from the application container.
+     * @param \Pimple\Container $app
      */
     public function setPackOptions(Container $app);
 

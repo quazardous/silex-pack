@@ -15,6 +15,7 @@ interface EntitablePackInterface extends PackInterface
      * It won't work if you use $app['orm.em'] before the $app->boot() or $app->boot() is not called.
      * 
      * @link https://github.com/dflydev/dflydev-doctrine-orm-service-provider
+     * @return array
      */
     public function getEntityMappings();
 }

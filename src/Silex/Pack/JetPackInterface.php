@@ -1,6 +1,7 @@
 <?php
 namespace Quazardous\Silex\Pack;
 
+use Quazardous\Silex\Api\PackInterface;
 use Quazardous\Silex\Api\ConsolablePackInterface;
 use Quazardous\Silex\Api\EntitablePackInterface;
 use Quazardous\Silex\Api\MountablePackInterface;
@@ -17,6 +18,7 @@ use Quazardous\Silex\Api\LinkablePackInterface;
  *
  */
 interface JetPackInterface extends
+    PackInterface,
     ConsolablePackInterface,
     EntitablePackInterface,
     MountablePackInterface,

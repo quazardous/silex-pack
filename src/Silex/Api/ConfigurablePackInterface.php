@@ -27,6 +27,7 @@ interface ConfigurablePackInterface extends PackInterface
 {
     /**
      * The path of the configs.
+     * @return string
      */
     public function getConfigsPath();
     

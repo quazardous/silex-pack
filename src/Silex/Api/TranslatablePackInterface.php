@@ -16,6 +16,7 @@ interface TranslatablePackInterface extends PackInterface
      * This folder should contain translation files named:
      *  - <locale>.yml|xlf|php
      *  - <domain>.<locale>.yml|xlf|php
+     *  @return string
      */
     public function getTranslationsPath();
     
