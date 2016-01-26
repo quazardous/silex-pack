@@ -228,6 +228,7 @@ class PackableApplication extends Application
                     $format = $formats[$parts['extension']];
                     $resource = $filepath;
                     if ($format == 'array') {
+                        $dns = \decamelize($provider->getName()) . '.';
                         $resource = include $filepath;
                     }
                     $this['translator']->addResource($format, $resource, $locale, $domain);

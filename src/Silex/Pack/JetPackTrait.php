@@ -283,27 +283,10 @@ trait JetPackTrait
         static $decamelizeds = [];
         $me = get_class($this);
         if ($decamelize && empty($decamelizeds[$me])) {
-            $decamelizeds[$me] = static::decamelize($this->getName());
+            $decamelizeds[$me] = \decamelize($this->getName());
         }
         $ns = $decamelize ? $decamelizeds[$me] : $this->getName();
         return $ns . ($id ? $separator . $id : '');
-    }
-    
-    /**
-     * Decamelize the given string.
-     *
-     * @param string $input
-     * @return string
-     */
-    protected static function decamelize($input)
-    {
-        $matches = null;
-        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
-        $ret = $matches[0];
-        foreach ($ret as &$match) {
-            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
-        }
-        return implode('_', $ret);
     }
     
 }

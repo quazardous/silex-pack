@@ -33,6 +33,7 @@
         },
         "files" : [
             "src/functions/array_merge_recursive_config.php",
+            "src/functions/decamelize.php",
             "src/functions/topological_sort.php"
         ]
     },
