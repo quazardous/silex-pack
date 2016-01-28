@@ -19,6 +19,8 @@ use Quazardous\Assetic\Factory\NamespaceAwareAssetFactory;
 use Quazardous\Silex\Api\LinkablePackInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Translation\Loader\PhpFileLoader;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 /**
  * Application which knows how to handle packs.
@@ -69,6 +71,14 @@ class PackableApplication extends Application
             $values = \array_merge_recursive_config($this->mergeConfigsFromPath($provider->getConfigsPath()), $values);
         }
         parent::register($provider, $values);
+        
+        if (isset($this['translator'])) {
+            $this->extend('translator', function ($translator) {
+                $translator->addLoader('php', new PhpFileLoader());
+                $translator->addLoader('yaml', new YamlFileLoader());
+                return $translator;
+            });
+        }
         
         return $this;
     }
@@ -226,16 +236,12 @@ class PackableApplication extends Application
                             $domain = null;
                         }
                         $formats = [
-                            'php' => 'array',
+                            'php' => 'php',
                             'xlf' => 'xliff',
                             'yml' => 'yaml',
                         ];
                         $format = $formats[$parts['extension']];
                         $resource = $filepath;
-                        if ($format == 'array') {
-                            $dns = \decamelize($provider->getName()) . '.';
-                            $resource = include $filepath;
-                        }
                         $prepend[] = [$format, $resource, $locale, $domain];
                     }
                 }
