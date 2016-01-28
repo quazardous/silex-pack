@@ -42,6 +42,8 @@ class PackableApplication extends Application
                 // handle pack's assets for assetic
                 $this->registerAssetablePack($provider);
             }
+            // find pack's translations
+            $this->registerTranslatablePacks();
         }
         
         parent::boot();
@@ -52,8 +54,6 @@ class PackableApplication extends Application
                 $this->registerTwiggablePack($provider);
                 // add namespace to assetic
                 $this->postBootRegisterAssetablePack($provider);
-                // find pack's translations
-                $this->postBootRegisterTranslatablePack($provider);
             }
             // handle twig template override
             $this->addPackOverridingTemplatePathToTwig();
@@ -207,33 +207,42 @@ class PackableApplication extends Application
             });
         }
     }
-    
-    protected function postBootRegisterTranslatablePack(ServiceProviderInterface $provider)
+
+    protected function registerTranslatablePacks()
     {
-        
-        if ($provider instanceof TranslatablePackInterface) {
-            if (isset($this['translator'])) {
-                $path = $provider->getTranslationsPath();
-                foreach (glob("$path/*.{php,xlf,yml}", GLOB_BRACE) as $filepath) {
-                    $parts = pathinfo($filepath);
-                    $tokens = explode('.', $parts['filename']);
-                    if (count($tokens) >= 2) {
-                        $locale = array_pop($tokens);
-                        $domain = implode('.', $tokens);
-                    } else {
-                        $locale = $tokens[0];
-                        $domain = null;
+        if (isset($this['translator'])) {
+            $prepend = [];
+            foreach ($this->providers as $provider) {
+                if ($provider instanceof TranslatablePackInterface) {
+                    $path = $provider->getTranslationsPath();
+                    foreach (glob("$path/*.{php,xlf,yml}", GLOB_BRACE) as $filepath) {
+                        $parts = pathinfo($filepath);
+                        $tokens = explode('.', $parts['filename']);
+                        if (count($tokens) >= 2) {
+                            $locale = array_pop($tokens);
+                            $domain = implode('.', $tokens);
+                        } else {
+                            $locale = $tokens[0];
+                            $domain = null;
+                        }
+                        $formats = [
+                            'php' => 'array',
+                            'xlf' => 'xliff',
+                            'yml' => 'yaml',
+                        ];
+                        $format = $formats[$parts['extension']];
+                        $resource = $filepath;
+                        if ($format == 'array') {
+                            $dns = \decamelize($provider->getName()) . '.';
+                            $resource = include $filepath;
+                        }
+                        $prepend[] = [$format, $resource, $locale, $domain];
                     }
-                    $formats = ['php' => 'array', 'xlf' => 'xliff', 'yml' => 'yaml'];
-                    $format = $formats[$parts['extension']];
-                    $resource = $filepath;
-                    if ($format == 'array') {
-                        $dns = \decamelize($provider->getName()) . '.';
-                        $resource = include $filepath;
-                    }
-                    $this['translator']->addResource($format, $resource, $locale, $domain);
                 }
             }
+            $this->extend('translator.resources', function ($ressources) use ($prepend) {
+                return array_merge($prepend, $ressources);
+            });
         }
     }
     
