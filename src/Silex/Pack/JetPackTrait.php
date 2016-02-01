@@ -21,6 +21,7 @@ trait JetPackTrait
         'twig_templates_subpath' => 'views',
         'entity_subnamespace' => 'Entity',
         'entity_use_simple_annotation' => true,
+        'target_entities_mapping' => [],
         'configs_subpath' => 'configs',
         'public_subpath' => 'public',
         'assets_subpath' => 'assets',
@@ -67,7 +68,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\TwiggablePackInterface::getTwigTemplatesPath()
      * @return string
      */
-    public function getTwigTemplatesPath()
+    public function getTwigTemplatesPath(Container $app)
     {
         static $paths = [];
         $me = get_class($this);
@@ -83,7 +84,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\EntitablePackInterface::getEntityMappings()
      * @return array
      */
-    public function getEntityMappings()
+    public function getEntityMappings(Container $app)
     {
         static $mappings = [];
         $me = get_class($this);
@@ -110,11 +111,21 @@ trait JetPackTrait
     }
     
     /**
+     * Return a default interface to entity class mapping for the pack's entities.
+     * @see \Quazardous\Silex\Api\EntitablePackInterface::getTargetEntitesMapping()
+     * @return array
+     */
+    public function getTargetEntitesMapping(Container $app)
+    {
+        return (array)$this->packOptions['target_entities_mapping'];
+    }
+    
+    /**
      * The path of the configs.
      * @see \Quazardous\Silex\Api\ConfigurablePackInterface::getConfigsPath()
      * @return string
      */
-    public function getConfigsPath()
+    public function getConfigsPath(Container $app)
     {
         static $paths = [];
         $me = get_class($this);
@@ -130,7 +141,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\AssetablePackInterface::getAssetsPath()
      * @return string
      */
-    public function getAssetsPath()
+    public function getAssetsPath(Container $app)
     {
         static $paths = [];
         $me = get_class($this);
@@ -146,7 +157,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\AssetablePackInterface::getAsseticFormulae()
      * @return array
      */
-    public function getAsseticFormulae()
+    public function getAsseticFormulae(Container $app)
     {
         return [];
     }
@@ -156,7 +167,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\TranslatablePackInterface::getTranslationsPath()
      * @return string
      */
-    public function getTranslationsPath()
+    public function getTranslationsPath(Container $app)
     {
         static $paths = [];
         $me = get_class($this);
@@ -172,7 +183,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\MountablePackInterface::getMountPrefix()
      * @return string
      */
-    public function getMountPrefix() {
+    public function getMountPrefix(Container $app) {
         return $this->packOptions['mount_prefix'];
     }
     
@@ -181,7 +192,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\MountablePackInterface::getMountHost()
      * @return string
      */
-    public function getMountHost() {
+    public function getMountHost(Container $app) {
         return $this->packOptions['mount_host'];;
     }
     
@@ -200,7 +211,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\TwiggablePackInterface::getTwigExtensions()
      * @return (\Twig_SimpleFilter|\Twig_SimpleFunction)[]
      */
-    public function getTwigExtensions()
+    public function getTwigExtensions(Container $app)
     {
         return [];
     }
@@ -210,7 +221,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\ConsolablePackInterface::getConsoleCommands()
      * @return \Symfony\Component\Console\Command\Command[]
      */
-    public function getConsoleCommands()
+    public function getConsoleCommands(Container $app)
     {
         return [];
     }
@@ -220,7 +231,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\LinkablePackInterface::getSymlinks()
      * @return array
      */
-    public function getSymlinks() 
+    public function getSymlinks(Container $app) 
     {
         $symlinks = [];
         if ($this->getPublicPath()) {
@@ -234,7 +245,7 @@ trait JetPackTrait
      * @see \Quazardous\Silex\Api\LinkablePackInterface::getPublicPath()
      * @return string
      */
-    public function getPublicPath() {
+    public function getPublicPath(Container $app) {
         static $paths = [];
         $me = get_class($this);
         if (empty($paths[$me])) {
@@ -248,7 +259,7 @@ trait JetPackTrait
      * Returns the the pack namespace path.
      * @return string
      */
-    public function getPackPath() {
+    public function getPackPath(Container $app) {
         static $paths = [];
         $me = get_class($this);
         if (empty($paths[$me])) {

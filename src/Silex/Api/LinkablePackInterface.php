@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\PackInterface;
+use Pimple\Container;
 
 /**
  * 
@@ -24,11 +25,11 @@ interface LinkablePackInterface extends PackInterface
      * </code>
      * @return array
      */
-    public function getSymlinks();
+    public function getSymlinks(Container $app);
     
     /**
      * If given, the public path will be automatically symlinked to $app['path_to_web']/packs/<pack_ns> or $app['assetic.path_to_web']/packs/<pack_ns>
      * @return string
      */
-    public function getPublicPath();
+    public function getPublicPath(Container $app);
 }

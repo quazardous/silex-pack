@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\PackInterface;
+use Pimple\Container;
 
 /**
  * 
@@ -18,6 +19,6 @@ interface TranslatablePackInterface extends PackInterface
      *  - <domain>.<locale>.yml|xlf|php
      *  @return string
      */
-    public function getTranslationsPath();
+    public function getTranslationsPath(Container $app);
     
 }

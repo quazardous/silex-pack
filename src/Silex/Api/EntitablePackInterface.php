@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\PackInterface;
+use Pimple\Container;
 
 /**
  * 
@@ -17,5 +18,13 @@ interface EntitablePackInterface extends PackInterface
      * @link https://github.com/dflydev/dflydev-doctrine-orm-service-provider
      * @return array
      */
-    public function getEntityMappings();
+    public function getEntityMappings(Container $app);
+    
+    /**
+     * Returns an associative array mapping interface to real class.
+     * 
+     * @link https://github.com/doctrine/doctrine2/blob/master/docs/en/cookbook/resolve-target-entity-listener.rst
+     * @return array
+     */
+    public function getTargetEntitesMapping(Container $app);
 }

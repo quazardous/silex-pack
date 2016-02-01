@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\TwiggablePackInterface;
+use Pimple\Container;
 
 /**
  * Inject the given formulae to assetic.
@@ -29,12 +30,12 @@ interface AssetablePackInterface extends TwiggablePackInterface
      * </code>
      * @return array[name]array list of formula
      */
-    public function getAsseticFormulae();
+    public function getAsseticFormulae(Container $app);
     
     /**
      * If you return relative input paths in the formulae, the application will prefix them with getAssetsPath().
      * @return array
      */
-    public function getAssetsPath();
+    public function getAssetsPath(Container $app);
     
 }

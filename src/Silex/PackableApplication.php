@@ -35,9 +35,6 @@ class PackableApplication extends Application
             foreach ($this->providers as $provider) {
                 // handle pack's options
                 $this->registerOptionnablePack($provider);
-                // handle pack's entities
-                // must be done before the console boot()
-                $this->registerEntitablePack($provider);
                 // handle pack's commands
                 // must be done before the orm provider register()
                 $this->registerConsolablePack($provider);
@@ -46,6 +43,9 @@ class PackableApplication extends Application
             }
             // find pack's translations
             $this->registerTranslatablePacks();
+            // handle pack's entities
+            // must be done before the console boot()
+            $this->registerEntitablePacks();
         }
         
         parent::boot();
@@ -68,7 +68,7 @@ class PackableApplication extends Application
     {
         if ($provider instanceof ConfigurablePackInterface) {
             $this->registerOptionnablePack($provider);
-            $values = \array_merge_recursive_config($this->mergeConfigsFromPath($provider->getConfigsPath()), $values);
+            $values = \array_merge_recursive_config($this->mergeConfigsFromPath($provider->getConfigsPath($this)), $values);
         }
         parent::register($provider, $values);
         
@@ -92,7 +92,7 @@ class PackableApplication extends Application
             }
 
             if ($controllers instanceof MountablePackInterface) {
-                $host = $controllers->getMountHost();
+                $host = $controllers->getMountHost($this);
                 if ($host !== null) {
                     $connectedControllers->host($host);
                 }
@@ -167,7 +167,7 @@ class PackableApplication extends Application
     protected function registerMountablePack(ServiceProviderInterface $provider)
     {
         if ($provider instanceof MountablePackInterface) {
-            $this->mount($provider->getMountPrefix(), $provider);
+            $this->mount($provider->getMountPrefix($this), $provider);
         }
     }
 
@@ -175,10 +175,10 @@ class PackableApplication extends Application
     {
         if ($provider instanceof TwiggablePackInterface) {
             if (isset($this['twig.loader.filesystem'])) {
-                $this['twig.loader.filesystem']->addPath($provider->getTwigTemplatesPath(), $provider->getName());
+                $this['twig.loader.filesystem']->addPath($provider->getTwigTemplatesPath($this), $provider->getName($this));
             }
             if (isset($this['twig'])) {
-                foreach ($provider->getTwigExtensions() as $extension) {
+                foreach ($provider->getTwigExtensions($this) as $extension) {
                     if ($extension instanceof \Twig_SimpleFilter) {
                         $this['twig']->addFilter($extension);
                     } elseif ($extension instanceof \Twig_SimpleFunction) {
@@ -189,29 +189,45 @@ class PackableApplication extends Application
         }
     }
     
-    protected function registerEntitablePack(ServiceProviderInterface $provider)
+    protected function registerEntitablePacks()
     {
-        if ($provider instanceof EntitablePackInterface) {
-            if (empty($this['orm.em.options'])) {
-                $options = [];
-            } else {
-                $options = $this['orm.em.options'];
+        if (empty($this['orm.em.options'])) {
+            $options = [];
+        } else {
+            $options = $this['orm.em.options'];
+        }
+        if (empty($options['mappings'])) {
+            $options['mappings'] = [];
+        }
+        $targetEntitiesMapping = [];
+        foreach ($this->providers as $provider) {
+            if ($provider instanceof EntitablePackInterface) {
+                $options['mappings'] = array_merge($options['mappings'], $provider->getEntityMappings($this));
+                $targetEntitiesMapping = array_merge($targetEntitiesMapping, $provider->getTargetEntitesMapping($this));
             }
-            if (empty($options['mappings'])) {
-                $options['mappings'] = [];
-            }
-            $options['mappings'] = array_merge($options['mappings'], $provider->getEntityMappings());
-            $this['orm.em.options'] = $options;
+        }
+        $this['orm.em.options'] = $options;
+        if (isset($this['db.event_manager'])) {
+            $app = $this;
+            $this->extend('db.event_manager', function ($evs) use ($app, $targetEntitiesMapping) {
+                $rtel = new \Doctrine\ORM\Tools\ResolveTargetEntityListener;
+                foreach ($targetEntitiesMapping as $interface => $class) {
+                    $rtel->addResolveTargetEntity($interface, $class, []);
+                }
+                $evs->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $rtel);
+                return $evs;
+            });
         }
     }
     
     protected function registerConsolablePack(ServiceProviderInterface $provider)
     {
         if ($provider instanceof ConsolablePackInterface) {
-            $this['dispatcher']->addListener(ConsoleEvents::INIT, function (ConsoleEvent $event) use($provider) {
+            $self = $this;
+            $this['dispatcher']->addListener(ConsoleEvents::INIT, function (ConsoleEvent $event) use($self, $provider) {
                 $console = $event->getConsole();
                 
-                foreach ($provider->getConsoleCommands() as $command) {
+                foreach ($provider->getConsoleCommands($self) as $command) {
                     $console->add($command);
                 }
             });
@@ -224,7 +240,7 @@ class PackableApplication extends Application
             $prepend = [];
             foreach ($this->providers as $provider) {
                 if ($provider instanceof TranslatablePackInterface) {
-                    $path = $provider->getTranslationsPath();
+                    $path = $provider->getTranslationsPath($this);
                     foreach (glob("$path/*.{php,xlf,yml}", GLOB_BRACE) as $filepath) {
                         $parts = pathinfo($filepath);
                         $tokens = explode('.', $parts['filename']);
@@ -255,12 +271,12 @@ class PackableApplication extends Application
     protected function registerAssetablePack(ServiceProviderInterface $provider)
     {
         if ($provider instanceof AssetablePackInterface) {
-            $formulae = $provider->getAsseticFormulae();
+            $formulae = $provider->getAsseticFormulae($this);
             foreach($formulae as &$formula) {
                 foreach($formula[0] as &$input) {
                     if ($input[0] != '/') {
                         //relative path
-                        $input = $provider->getAssetsPath() . '/' . $input;
+                        $input = $provider->getAssetsPath($this) . '/' . $input;
                     }
                 }
             }
@@ -277,7 +293,7 @@ class PackableApplication extends Application
             if (isset($this['assetic.factory'])) {
                 $factory = $this['assetic.factory'];
                 if ($factory instanceof NamespaceAwareAssetFactory) {
-                    $factory->addNamespace($provider->getName(), $provider->getAssetsPath());
+                    $factory->addNamespace($provider->getName($this), $provider->getAssetsPath($this));
                 }
             }
         }
@@ -307,7 +323,7 @@ class PackableApplication extends Application
         foreach ($this->providers as $provider) {
             if ($provider instanceof LinkablePackInterface) {
                 $reflector = new \ReflectionClass($provider);
-                $symlinks = $provider->getSymlinks();
+                $symlinks = $provider->getSymlinks($this);
                 foreach ($symlinks as $source => $dest) {
                     if ($source[0] != '/') {
                         $source = dirname($reflector->getFileName()) . '/' . $source;

@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\PackInterface;
+use Pimple\Container;
 
 /**
  * 
@@ -29,6 +30,6 @@ interface ConfigurablePackInterface extends PackInterface
      * The path of the configs.
      * @return string
      */
-    public function getConfigsPath();
+    public function getConfigsPath(Container $app);
     
 }

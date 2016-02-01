@@ -3,6 +3,7 @@ namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\PackInterface;
 use Silex\Api\ControllerProviderInterface;
+use Pimple\Container;
 
 /**
  * 
@@ -15,11 +16,11 @@ interface MountablePackInterface extends PackInterface, ControllerProviderInterf
      * The path prefix where to mount the crontrollers returned by connect()
      * @return string
      */
-    public function getMountPrefix();
+    public function getMountPrefix(Container $app);
     
     /**
      * A host to add to all the controllers.
      * @return string
      */
-    public function getMountHost();
+    public function getMountHost(Container $app);
 }

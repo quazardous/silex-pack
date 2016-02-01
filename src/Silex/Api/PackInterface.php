@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Api;
 
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * 

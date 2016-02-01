@@ -24,6 +24,7 @@
 		"kriswallsmith/assetic" : "^1.0",
 		"mheap/Silex-Assetic" : "*@dev",
 		"quazardous/silex-console" : "*@dev",
+		"doctrine/orm": "^2.3",
         "symfony/form": "^3.0"
 	},
 	"autoload" : {

@@ -2,6 +2,7 @@
 namespace Quazardous\Silex\Api;
 
 use Quazardous\Silex\Api\PackInterface;
+use Pimple\Container;
 
 /**
  * 
@@ -18,5 +19,5 @@ interface ConsolablePackInterface extends PackInterface
      * @link https://github.com/quazardous/silex-console
      * @return \Symfony\Component\Console\Command\Command[]
      */
-    public function getConsoleCommands();
+    public function getConsoleCommands(Container $app);
 }
