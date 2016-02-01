@@ -203,7 +203,7 @@ class PackableApplication extends Application
         foreach ($this->providers as $provider) {
             if ($provider instanceof EntitablePackInterface) {
                 $options['mappings'] = array_merge($options['mappings'], $provider->getEntityMappings($this));
-                $targetEntitiesMapping = array_merge($targetEntitiesMapping, $provider->getTargetEntitesMapping($this));
+                $targetEntitiesMapping = array_merge($targetEntitiesMapping, $provider->getTargetEntitiesMapping($this));
             }
         }
         $this['orm.em.options'] = $options;

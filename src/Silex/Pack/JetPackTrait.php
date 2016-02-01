@@ -112,10 +112,10 @@ trait JetPackTrait
     
     /**
      * Return a default interface to entity class mapping for the pack's entities.
-     * @see \Quazardous\Silex\Api\EntitablePackInterface::getTargetEntitesMapping()
+     * @see \Quazardous\Silex\Api\EntitablePackInterface::getTargetEntitiesMapping()
      * @return array
      */
-    public function getTargetEntitesMapping(Container $app)
+    public function getTargetEntitiesMapping(Container $app)
     {
         return (array)$this->packOptions['target_entities_mapping'];
     }

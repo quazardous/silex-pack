@@ -26,5 +26,5 @@ interface EntitablePackInterface extends PackInterface
      * @link https://github.com/doctrine/doctrine2/blob/master/docs/en/cookbook/resolve-target-entity-listener.rst
      * @return array
      */
-    public function getTargetEntitesMapping(Container $app);
+    public function getTargetEntitiesMapping(Container $app);
 }
