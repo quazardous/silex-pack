@@ -46,5 +46,10 @@
         "mheap/Silex-Assetic" : "Allows packs to add assets via assetic",
         "symfony/translation" : "Allows packs to have translations",
         "symfony/twig-bridge" : "Twig translation helpers"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
