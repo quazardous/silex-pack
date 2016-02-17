@@ -56,6 +56,8 @@ class PackableApplication extends Application
                 $this->registerTwiggablePack($provider);
                 // add namespace to assetic
                 $this->postBootRegisterAssetablePack($provider);
+                // connect pack
+                $this->registerMountablePack($provider);
             }
             // handle twig template override
             $this->addPackOverridingTemplatePathToTwig();
@@ -106,20 +108,6 @@ class PackableApplication extends Application
         $this['controllers']->mount($prefix, $controllers);
 
         return $this;
-    }
-    
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
-    {
-        if (!$this->booted) {
-            $this->boot();
-        }
-        foreach ($this->providers as $provider) {
-            // connect pack
-            $this->registerMountablePack($provider);          
-        }
-        $this->flush();
-
-        return $this['kernel']->handle($request, $type, $catch);
     }
     
     protected function mergeConfigsFromPath($path) {
