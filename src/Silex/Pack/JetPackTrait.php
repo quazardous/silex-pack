@@ -234,8 +234,8 @@ trait JetPackTrait
     public function getSymlinks(Container $app) 
     {
         $symlinks = [];
-        if ($this->getPublicPath()) {
-            $symlinks[$this->getPublicPath()] = 'packs/' . $this->_ns();
+        if ($this->getPublicPath($app)) {
+            $symlinks[$this->getPublicPath($app)] = 'packs/' . $this->_ns();
         }
         return $symlinks;
     }
