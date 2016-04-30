@@ -327,7 +327,7 @@ class PackableApplication extends Application
                     if (is_link($dest)) {
                         unlink($dest);
                     }
-                    if (!is_dir($source)) continue;
+                    if (!is_file($source)) continue;
                     if (!is_dir(dirname($dest))) {
                         mkdir(dirname($dest), $mode, true);
                     }
