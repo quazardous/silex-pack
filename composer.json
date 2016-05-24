@@ -44,8 +44,7 @@
         "dflydev/doctrine-orm-service-provider": "Allows packs to manage their own entities",
         "quazardous/silex-console": "Allows packs to add their own commands",
         "mheap/Silex-Assetic" : "Allows packs to add assets via assetic",
-        "symfony/translation" : "Allows packs to have translations",
-        "symfony/twig-bridge" : "Twig translation helpers"
+        "symfony/translation" : "Allows packs to have translations"
     },
     "extra": {
         "branch-alias": {
