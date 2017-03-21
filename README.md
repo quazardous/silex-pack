@@ -179,6 +179,7 @@ The user pack namespace `acme_demo.` is derived from `PackInterface::getName()` 
 
 See `JetPackTrait::$packOptions` for a list of all options.
 
+NB: you will need to manualy add all the suggested dependencies (see the demo project for a typical composer.json).
 
 ### Commands
 
